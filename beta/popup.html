@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<style>
+	p {
+		margin: 4px
+	}
+	fieldset {
+		margin-bottom: 5px;
+		padding-bottom: 5px;
+	}
+	#vote {
+		cursor: pointer
+	}
+	.alert {
+		color: red
+	}
+</style>
+<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="popup.js"></script>
+</head>
+
+<body style="width: 300px; background-color: lightyellow">
+
+<img id="vote" src="resources/header.png" alt="你在 webstroe 的評分會加快改版的進度哦^^點我" />
+
+<p style="text-align: right">nyaNotifier v0.2</p>
+
+<p id="p_multi_game_not_supported" class="alert" hidden="hidden">多開暫時不支援哦^^</p>
+
+<p id="p_not_found_game" class="alert" hidden="hidden">找不到遊戲，試試刷新遊戲^^</p>
+
+<p id="p_local_storage_not_supported" class="alert" hidden="hidden">使用前請開啟 localStorage: 「設定」->「顯示進階設定」->「隱私權說明」->「內容設定」->看有沒有開啟「允許網站儲存本站資料」</p>
+
+<fieldset id="general_configs">
+	<legend>一般選項</legend>
+	<input type="checkbox" class="config" id="voice" />喵聲提示<br />
+</fieldset>
+		
+<fieldset id="configs">
+	<legend>以下條件成立時通知我</legend>
+	<input type="checkbox" class="config" id="nohome" />打完賊忘了回到里時<br />
+	<input type="checkbox" class="config" id="build" />沒有建築物增建中<br />
+	<input type="checkbox" class="config" id="prepare" />沒有建築物準備中<br />
+	<input type="checkbox" class="config" id="skill" />奧義所空閒（可多座）<br />
+	<input type="checkbox" class="config" id="soak" />溫泉空閒（可多座）<br />
+	<input type="checkbox" class="config" id="food" />糧食超過 90%<br />
+	<input type="checkbox" class="config" id="quest" />可以打賊、合戰<br />
+</fieldset>
+
+<fieldset id="coming">
+	<legend>未來更新</legend>
+	<input type="checkbox" class="config" id="japan" />日版支援<br />
+	<input type="checkbox" class="config" id="visit" />可以拜訪 & 有朋友沒拜訪</br />
+	<input type="checkbox" class="config" id="fire" />修練所【火】空閒（可多座）<br />
+	<input type="checkbox" class="config" id="land" />修練所【地】空閒（可多座）<br />
+	<input type="checkbox" class="config" id="wind" />修練所【風】空閒（可多座）<br />
+	<input type="checkbox" class="config" id="water" />修練所【水】空閒（可多座）<br />
+	<input type="checkbox" class="config" id="sky" />修練所【空】空閒（可多座）<br />
+	<input type="checkbox" class="config" id="close" />手動關閉提示框後不提示相同內容<br />
+</fieldset>
+
+</body>
+</html>
