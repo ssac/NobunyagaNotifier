@@ -7,7 +7,7 @@
     var config = new Object();
     window.config = config;
 	
-	
+
 	function initSettings() {
 		// read the setting of localStorage
 		config.isVoiceNotify = (localStorage['isVoiceNotify']) ? convertStrBool(localStorage['isVoiceNotify']) : false;
@@ -27,7 +27,7 @@
 		config.isDesktopNotify = (localStorage['isDesktopNotify']) ? convertStrBool(localStorage['isDesktopNotify']) : true;
 	}
 
-	
+
     /*
 	function to set config calling from popup.html
     name (string): config name
@@ -39,7 +39,7 @@
     }
     window.setConfig = setConfig;
 	
-	
+
 	// direct user to the webpage of this extension, for them to vote
 	// function called from popup.html
 	function vote() {
@@ -53,18 +53,18 @@
     // game tab to keep tracking the current playing game
     var target;
 
-	
+
     // flag whether the game is executing
     var isInGame = false;
 	
-	
+
 	// function called from popup.html
 	function ifInGame() {
 		return isInGame;
 	}
 	window.ifInGame = ifInGame;
 
-	
+
     // notification-related variable
     var notification;
     var isNotificationShown = false;
@@ -72,17 +72,17 @@
 	var firstTimeToNotifyNohome;
 	var nohomeDelay = 3000;
 	var isLastTimeShowNohome = false;
-	
+
 	// when this is true, the debug msg will display in console of background.html
 	var isDebug = true;
-	
+
 	function debug(content) {
 		if (isDebug) {
 			console.log(content);
 		}
 	}
-	
-	
+
+
 	function ifInNoShowNohomePeriond() {
 		return ((new Date().getTime()) - firstTimeToNotifyNohome > nohomeDelay) ? false : true;
 	}
@@ -114,13 +114,13 @@
             notification.cancel();
         }
     }
-	
-	
+
+
 	function updateNohomeShowTime() {
 		
 	}
-	
-	
+
+
 	function ifShowNohome() {
 		var currentTime = new Date().getTime();
 		if ((currentTime - firstTimeToNotifyNohome) > nohomeDelay) {
@@ -131,7 +131,7 @@
 		}
 	}
 
-	
+
 	function initListeners() {
 	
 		// when user close the tab, reset variables for next tab to open game
@@ -141,7 +141,7 @@
 				setGameUnconnected();
 			}
 		});
-		
+
 		/*
 		ask == 1: game leave
 		ask == 2: game update
@@ -339,7 +339,7 @@
         }
     }
 
-	
+
 	function start() {
 		// exit if localStorage is not supported
 		if (!window.localStorage) {
@@ -372,7 +372,7 @@
 			}
 		});
 	}
-	
+
 	start();
 
 })();

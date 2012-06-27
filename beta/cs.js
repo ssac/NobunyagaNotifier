@@ -19,7 +19,7 @@ $(document).ready(function() {
 
         return (numOfBuilds > numOfWorks) ? true : false;
     }
-	
+
 
 	/*
 	function: get the number of specified build
@@ -34,8 +34,8 @@ $(document).ready(function() {
 		
 		return num;
 	}
-	
-	
+
+
 	/*
 	function: get the number of working building
 	*/
@@ -51,14 +51,14 @@ $(document).ready(function() {
 		
 		return $(selector).length;
 	}
-	
-	
+
+
 	// detect if the user's battle team in move or questing
 	function ifInMove() {
 		return ($("#doing > div:contains('完成移動')").length !== 0) ? true : false;
 	}
-	
-	
+
+
 	// detect if the user's battle team in fight (to another player)
 	function ifInBattle() {
 		return ($("#doing > div:contains('合戰')").length !== 0) ? true : false;
@@ -74,13 +74,13 @@ $(document).ready(function() {
 
         return (cur_food / max_food > 0.9) ? true : false;
     }
-	
-	
+
+
 	function ifQuestNotify() {
 		return (ifInMove() || ifInBattle()) ? false : true;
 	}
-	
-	
+
+
 	// function to send read dom info to background.js
     function notifyUser() {
 	
@@ -130,7 +130,7 @@ $(document).ready(function() {
 
         chrome.extension.sendRequest({ ask: 2, content: content });
     }
-	
+
 
 
     /*
@@ -138,13 +138,13 @@ $(document).ready(function() {
     ask == 2: periodic update
     ask == 3: notice game joining
     */
-	
+
     window.onunload = function () {
 		//if (!document.getElementById("doing")) return;
         chrome.extension.sendRequest({ ask: 1 });
     };
-	
-	
+
+
 	// ask if start to send data
 	chrome.extension.sendRequest({ ask: 3 }, function(rsp){
 		// got false means that the game is running, this is the second and next games
@@ -155,8 +155,8 @@ $(document).ready(function() {
 			notifyUser();
 		}
 	});
-	
-	
+
+
 	// when this content script be asked to re-send data
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		if (request.ask === 1) {

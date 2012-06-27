@@ -1,7 +1,7 @@
 ﻿
-$(document).ready(function(){
+$(document).ready(function() {
 
-	var isPublish = false;
+	var isPublish = true;
 
 	// notice user the game has not found, ask user refresh the game tab
 	if (chrome.extension.getBackgroundPage().ifInGame() === false) {
@@ -9,28 +9,28 @@ $(document).ready(function(){
 		setAllConfgisDisabled();
 		return;
 	}
-	
-	
+
+
 	// notice user localStorage has not been enabled, application doesn't run 
 	if (!window.localStorage) {
 		$("#p_local_storage_not_supported").show();
 		setAllConfgisDisabled();
 		return;
 	}
-	
-	
+
+
 	// config object constructor
 	function Config(id, variable) {
 		this.id = id;
 		this.variable = variable;
 	}
-	
-	
+
+
 	function setCheckboxChecked(id) {
 		$(id).attr("checked", "checked");
 	}
-	
-	
+
+
 	var configs = [
 		new Config ("#voice", "isVoiceNotify"),
 		new Config ("#quest", "isQuestNotify"),
@@ -41,17 +41,17 @@ $(document).ready(function(){
 		new Config ("#food", "isFoodNotify"),
 		new Config ("#nohome", "isNohomeNotify")
 	];
-	
-	
-	if (isPublish) {
+
+
+	if (!isPublish) {
 		configs.push(new Config ("#fire", "isFireNotify"));
 		configs.push(new Config ("#land", "isLandNotify"));
 		configs.push(new Config ("#wind", "isWindNotify"));
 		configs.push(new Config ("#water", "isWaterNotify"));
 		configs.push(new Config ("#sky", "isSkyNotify"));
 	}
-	
-	
+
+
 	for (var i = 0; i < configs.length; i++) {
 		var config = configs[i];
 		
@@ -62,8 +62,8 @@ $(document).ready(function(){
 		
 		bindEvent(config);
 	}
-	
-	
+
+
 	function bindEvent(config) {
 		$(config.id).click(function () {
 			if ($(config.id).attr("checked") == "checked") {
@@ -74,20 +74,20 @@ $(document).ready(function(){
 			}
 		});
 	}
-	
-	
+
+
 	function setAllConfgisDisabled() {
 		$("#general_configs > input.config").attr("disabled", "disabled");
 		$("#configs > input.config").attr("disabled", "disabled");
 	}
-	
-	
+
+
 	// redirect user to this extension installation page
 	$("#vote").click(function() {
 		chrome.extension.getBackgroundPage().vote();
 	});
-	
-	
+
+
 	if (isPublish) {
 		$("#coming > input.config").attr("disabled", "disabled");
 	}
