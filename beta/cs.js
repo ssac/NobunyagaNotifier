@@ -3,7 +3,7 @@ $(document).ready(function() {
 
     var interval = 1000;
 	var content = new Object();
-	var isLastNohomeFalse;
+	var isLastNohomeTrue = false;
 
 
 	/*
@@ -130,6 +130,7 @@ $(document).ready(function() {
 
         chrome.extension.sendRequest({ ask: 2, content: content });
     }
+	
 
 
     /*

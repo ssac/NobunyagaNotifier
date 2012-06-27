@@ -1,12 +1,15 @@
 ﻿
 $(document).ready(function(){
 
+	var isPublish = false;
+
 	// notice user the game has not found, ask user refresh the game tab
 	if (chrome.extension.getBackgroundPage().ifInGame() === false) {
 		$("#p_not_found_game").show();
 		setAllConfgisDisabled();
 		return;
 	}
+	
 	
 	// notice user localStorage has not been enabled, application doesn't run 
 	if (!window.localStorage) {
@@ -15,15 +18,18 @@ $(document).ready(function(){
 		return;
 	}
 	
+	
 	// config object constructor
 	function Config(id, variable) {
 		this.id = id;
 		this.variable = variable;
 	}
 	
+	
 	function setCheckboxChecked(id) {
 		$(id).attr("checked", "checked");
 	}
+	
 	
 	var configs = [
 		new Config ("#voice", "isVoiceNotify"),
@@ -33,13 +39,17 @@ $(document).ready(function(){
 		new Config ("#skill", "isSkillNotify"),
 		new Config ("#soak", "isSoakNotify"),
 		new Config ("#food", "isFoodNotify"),
-		new Config ("#fire", "isFireNotify"),
-		new Config ("#land", "isLandNotify"),
-		new Config ("#wind", "isWindNotify"),
-		new Config ("#water", "isWaterNotify"),
-		new Config ("#sky", "isSkyNotify"),
 		new Config ("#nohome", "isNohomeNotify")
 	];
+	
+	
+	if (isPublish) {
+		configs.push(new Config ("#fire", "isFireNotify"));
+		configs.push(new Config ("#land", "isLandNotify"));
+		configs.push(new Config ("#wind", "isWindNotify"));
+		configs.push(new Config ("#water", "isWaterNotify"));
+		configs.push(new Config ("#sky", "isSkyNotify"));
+	}
 	
 	
 	for (var i = 0; i < configs.length; i++) {
@@ -53,6 +63,7 @@ $(document).ready(function(){
 		bindEvent(config);
 	}
 	
+	
 	function bindEvent(config) {
 		$(config.id).click(function () {
 			if ($(config.id).attr("checked") == "checked") {
@@ -64,13 +75,20 @@ $(document).ready(function(){
 		});
 	}
 	
+	
 	function setAllConfgisDisabled() {
 		$("#general_configs > input.config").attr("disabled", "disabled");
 		$("#configs > input.config").attr("disabled", "disabled");
 	}
 	
+	
 	// redirect user to this extension installation page
 	$("#vote").click(function() {
 		chrome.extension.getBackgroundPage().vote();
 	});
+	
+	
+	if (isPublish) {
+		$("#coming > input.config").attr("disabled", "disabled");
+	}
 });

@@ -1,14 +1,15 @@
-
+﻿
 (function () {
 
     var website = "http://nyaframe.wasabii.com.tw/index.aspx";
     var queryInfo = {url: website};
 
-	// read the setting of localStorage
     var config = new Object();
     window.config = config;
 	
+	
 	function initSettings() {
+		// read the setting of localStorage
 		config.isVoiceNotify = (localStorage['isVoiceNotify']) ? convertStrBool(localStorage['isVoiceNotify']) : false;
 		config.isBuildNotify = (localStorage['isBuildNotify']) ? convertStrBool(localStorage['isBuildNotify']) : false;
 		config.isPrepareNotify = (localStorage['isPrepareNotify']) ? convertStrBool(localStorage['isPrepareNotify']) : false;
@@ -28,6 +29,7 @@
 
 	
     /*
+	function to set config calling from popup.html
     name (string): config name
     flag (boolean): config value
     */
@@ -39,6 +41,7 @@
 	
 	
 	// direct user to the webpage of this extension, for them to vote
+	// function called from popup.html
 	function vote() {
 		chrome.tabs.create({
 			url: "https://chrome.google.com/webstore/detail/oeocjccojaaoejnphdledmkpjmnkflfi"
@@ -47,21 +50,42 @@
 	window.vote = vote;
 	
 
-    // game tab
+    // game tab to keep tracking the current playing game
     var target;
 
+	
     // flag whether the game is executing
     var isInGame = false;
 	
+	
+	// function called from popup.html
 	function ifInGame() {
 		return isInGame;
 	}
 	window.ifInGame = ifInGame;
 
-    //
+	
+    // notification-related variable
     var notification;
     var isNotificationShown = false;
     var lastText;
+	var firstTimeToNotifyNohome;
+	var nohomeDelay = 3000;
+	var isLastTimeShowNohome = false;
+	
+	// when this is true, the debug msg will display in console of background.html
+	var isDebug = true;
+	
+	function debug(content) {
+		if (isDebug) {
+			console.log(content);
+		}
+	}
+	
+	
+	function ifInNoShowNohomePeriond() {
+		return ((new Date().getTime()) - firstTimeToNotifyNohome > nohomeDelay) ? false : true;
+	}
 
 
 	// since localStorage only save string value, the extension has to convert string to value manually
@@ -90,6 +114,22 @@
             notification.cancel();
         }
     }
+	
+	
+	function updateNohomeShowTime() {
+		
+	}
+	
+	
+	function ifShowNohome() {
+		var currentTime = new Date().getTime();
+		if ((currentTime - firstTimeToNotifyNohome) > nohomeDelay) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 	
 	function initListeners() {
@@ -147,12 +187,11 @@
 
 
     function notifyPlayer(text) {
-        if (config.isBrowserNotify) browserNotification();
+		// browser notification, not implemented yet
+		if (config.isBrowserNotify) browserNotification();
 
-        // notification only shown when the notification has not shown yet
-        if (config.isDesktopNotify) {
-            desktopNotification(text);
-        }
+		// notification only shown when the notification has not shown yet
+		if (config.isDesktopNotify) desktopNotification(text);
     }
 
 
@@ -194,15 +233,26 @@
 
 	// decide whether to show notification according to user settings
     function handleUpdate(msg) {
-        //port.postMessage({ask: 1});
 
         var rsp = msg.content;
         var text = "";
         var show = false;
 		
 		if (rsp.nohome && config.isNohomeNotify && !rsp.quest && config.isQuestNotify) {
-			text += "里 ";
-			show = true;
+			// if this is the first time to detect no home msg, update the first time to notify no home
+			if (!isLastTimeShowNohome) {
+				firstTimeToNotifyNohome = new Date().getTime();
+			}
+			
+			if (!ifInNoShowNohomePeriond()) {
+				text += "里 ";
+				show = true;
+			}
+			
+			isLastTimeShowNohome = true;
+		}
+		else {
+			isLastTimeShowNohome = false;
 		}
 
         if (rsp.quest && config.isQuestNotify) {
@@ -264,19 +314,21 @@
         // exit if no update need to be notified
         if (show) {
 
-            if (isNotificationShown == false) {
-                notifyPlayer(text);
-            }
-            else {
+			if (isNotificationShown === false) {
+				notifyPlayer(text);
+			}
+			else {
 
-                if (text != lastText) {
-                    notification.cancel();
+				// only notify user when the notification text had changed
+				if (text != lastText) {
+					notification.cancel();
 
-                    if (!isNotificationShown) {
-                        notifyPlayer(text);
-                    }
-                }
-            }
+					// this double check ensure no duplicate notification shown when chrome browser delay 
+					if (!isNotificationShown) {
+						notifyPlayer(text);
+					}
+				}
+			}
 
             lastText = text;
         }
