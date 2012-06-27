@@ -15,6 +15,7 @@ $(document).ready(function(){
 		return;
 	}
 	
+	// config object constructor
 	function Config(id, variable) {
 		this.id = id;
 		this.variable = variable;
@@ -44,7 +45,7 @@ $(document).ready(function(){
 	for (var i = 0; i < configs.length; i++) {
 		var config = configs[i];
 		
-		// setting
+		// read local storage data, mark specified checkbox if set true
 		if (chrome.extension.getBackgroundPage().config[config.variable] === true) {
 			setCheckboxChecked(config.id);
 		}
@@ -68,6 +69,7 @@ $(document).ready(function(){
 		$("#configs > input.config").attr("disabled", "disabled");
 	}
 	
+	// redirect user to this extension installation page
 	$("#vote").click(function() {
 		chrome.extension.getBackgroundPage().vote();
 	});

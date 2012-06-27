@@ -64,6 +64,7 @@
     var lastText;
 
 
+	// since localStorage only save string value, the extension has to convert string to value manually
     function convertStrBool(str) {
         return (str === 'true') ? true : false;
     }
@@ -191,6 +192,7 @@
     }
 
 
+	// decide whether to show notification according to user settings
     function handleUpdate(msg) {
         //port.postMessage({ask: 1});
 
@@ -298,6 +300,7 @@
 		
 		setGameUnconnected();
 		
+		// only work under one game
 		chrome.tabs.query(queryInfo, function(arrtabs) {
 			// only work under one game running
 			if (arrtabs.length === 1) {

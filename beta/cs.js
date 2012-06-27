@@ -3,6 +3,7 @@ $(document).ready(function() {
 
     var interval = 1000;
 	var content = new Object();
+	var isLastNohomeFalse;
 
 
 	/*
@@ -19,7 +20,11 @@ $(document).ready(function() {
         return (numOfBuilds > numOfWorks) ? true : false;
     }
 	
-	
+
+	/*
+	function: get the number of specified build
+	arr: array containing the class name of building
+	*/
 	function getNumOfBuilds(arr) {
 		var num = 0;
 		
@@ -31,6 +36,9 @@ $(document).ready(function() {
 	}
 	
 	
+	/*
+	function: get the number of working building
+	*/
 	function getNumOfWorks(str) {
 		var selector;
 		
@@ -45,16 +53,19 @@ $(document).ready(function() {
 	}
 	
 	
+	// detect if the user's battle team in move or questing
 	function ifInMove() {
 		return ($("#doing > div:contains('完成移動')").length !== 0) ? true : false;
 	}
 	
 	
+	// detect if the user's battle team in fight (to another player)
 	function ifInBattle() {
 		return ($("#doing > div:contains('合戰')").length !== 0) ? true : false;
 	}
 
 
+	// function to detect if food over the warning line
     function ifFoodNotify() {
         if (document.getElementById("doing") == null) return false;
 
@@ -70,8 +81,9 @@ $(document).ready(function() {
 	}
 	
 	
+	// function to send read dom info to background.js
     function notifyUser() {
-
+	
         //if (!document.getElementById("notify_count") && !document.getElementById("doing")) return;
 		content.nohome = false;
 		content.quest = false;
