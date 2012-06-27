@@ -1,11 +1,11 @@
 ﻿
 (function () {
 
-    var website = "http://nyaframe.wasabii.com.tw/index.aspx";
-    var queryInfo = {url: website};
+	var website = "http://nyaframe.wasabii.com.tw/index.aspx";
+	var queryInfo = {url: website};
 
-    var config = new Object();
-    window.config = config;
+	var config = new Object();
+	window.config = config;
 	
 
 	function initSettings() {
@@ -28,16 +28,16 @@
 	}
 
 
-    /*
+	/*
 	function to set config calling from popup.html
-    name (string): config name
-    flag (boolean): config value
-    */
-    function setConfig(name, flag) {
-        config[name] = flag;
-        localStorage[name] = flag;
-    }
-    window.setConfig = setConfig;
+	name (string): config name
+	flag (boolean): config value
+	*/
+	function setConfig(name, flag) {
+		config[name] = flag;
+		localStorage[name] = flag;
+	}
+	window.setConfig = setConfig;
 	
 
 	// direct user to the webpage of this extension, for them to vote
@@ -51,11 +51,11 @@
 	
 
     // game tab to keep tracking the current playing game
-    var target;
+	var target;
 
 
     // flag whether the game is executing
-    var isInGame = false;
+	var isInGame = false;
 	
 
 	// function called from popup.html
@@ -65,10 +65,10 @@
 	window.ifInGame = ifInGame;
 
 
-    // notification-related variable
-    var notification;
-    var isNotificationShown = false;
-    var lastText;
+	// notification-related variable
+	var notification;
+	var isNotificationShown = false;
+	var lastText;
 	var firstTimeToNotifyNohome;
 	var nohomeDelay = 3000;
 	var isLastTimeShowNohome = false;
@@ -89,35 +89,30 @@
 
 
 	// since localStorage only save string value, the extension has to convert string to value manually
-    function convertStrBool(str) {
-        return (str === 'true') ? true : false;
-    }
+	function convertStrBool(str) {
+		return (str === 'true') ? true : false;
+	}
 
 
-    function setGameConnected(tab) {
-        chrome.browserAction.setBadgeBackgroundColor({ color: [0, 255, 0, 255] });
-        chrome.browserAction.setBadgeText({ text: "ok" });
+	function setGameConnected(tab) {
+		chrome.browserAction.setBadgeBackgroundColor({ color: [0, 255, 0, 255] });
+		chrome.browserAction.setBadgeText({ text: "ok" });
 
-        target = tab;
-        isInGame = true;
-    }
-
-
-    function setGameUnconnected() {
-        chrome.browserAction.setBadgeBackgroundColor({ color: [255, 0, 0, 255] });
-        chrome.browserAction.setBadgeText({ text: "...." });
-
-        target = null;
-        isInGame = false;
-
-        if (isNotificationShown) {
-            notification.cancel();
-        }
-    }
+		target = tab;
+		isInGame = true;
+	}
 
 
-	function updateNohomeShowTime() {
-		
+	function setGameUnconnected() {
+		chrome.browserAction.setBadgeBackgroundColor({ color: [255, 0, 0, 255] });
+		chrome.browserAction.setBadgeText({ text: "...." });
+
+		target = null;
+		isInGame = false;
+
+		if (isNotificationShown) {
+			notification.cancel();
+		}
 	}
 
 
@@ -186,58 +181,58 @@
 	}
 
 
-    function notifyPlayer(text) {
+	function notifyPlayer(text) {
 		// browser notification, not implemented yet
 		if (config.isBrowserNotify) browserNotification();
 
 		// notification only shown when the notification has not shown yet
 		if (config.isDesktopNotify) desktopNotification(text);
-    }
+	}
 
 
 	// notify user by browser action icon
-    function browserNotification() {
+	function browserNotification() {
 		// no intent to implement this function by now
-    }
+	}
 
 
 	// notify user by chrome notification
-    function desktopNotification(text) {
-        notification = webkitNotifications.createNotification("icon/notification.png", '信喵之野望通知', text);
+	function desktopNotification(text) {
+		notification = webkitNotifications.createNotification("icon/notification.png", '信喵之野望通知', text);
 
-        notification.ondisplay = function () {
-            isNotificationShown = true;
-        }
+		notification.ondisplay = function () {
+			isNotificationShown = true;
+		}
 
-        notification.onclose = function () {
-            isNotificationShown = false;
-        }
+		notification.onclose = function () {
+			isNotificationShown = false;
+		}
 
-        // when user click the notification, focus the game
-        notification.onclick = function () {
-            if (target) {
-                chrome.windows.update(target.windowId, { focused: true });
-                chrome.tabs.update(target.id, { active: true });
-            }
-        }
+		// when user click the notification, focus the game
+		notification.onclick = function () {
+			if (target) {
+				chrome.windows.update(target.windowId, { focused: true });
+				chrome.tabs.update(target.id, { active: true });
+			}
+		}
 
-        notification.show();
-		
+		notification.show();
+
 		// play notice voice if the user set this
 		if (config.isVoiceNotify) {
 			var voice = document.getElementById("notice_voice");
 			voice.play();
 		}
-    }
+	}
 
 
 	// decide whether to show notification according to user settings
-    function handleUpdate(msg) {
+	function handleUpdate(msg) {
 
-        var rsp = msg.content;
-        var text = "";
-        var show = false;
-		
+		var rsp = msg.content;
+		var text = "";
+		var show = false;
+
 		if (rsp.nohome && config.isNohomeNotify && !rsp.quest && config.isQuestNotify) {
 			// if this is the first time to detect no home msg, update the first time to notify no home
 			if (!isLastTimeShowNohome) {
@@ -255,64 +250,64 @@
 			isLastTimeShowNohome = false;
 		}
 
-        if (rsp.quest && config.isQuestNotify) {
-            text += "賊/合 ";
-            show = true;
-        }
+		if (rsp.quest && config.isQuestNotify) {
+			text += "賊/合 ";
+			show = true;
+		}
 
-        if (rsp.build && config.isBuildNotify) {
-            text += "建 ";
-            show = true;
-        }
+		if (rsp.build && config.isBuildNotify) {
+			text += "建 ";
+			show = true;
+		}
 
-        if (rsp.prepare && config.isPrepareNotify) {
-            text += "準 ";
-            show = true;
-        }
+		if (rsp.prepare && config.isPrepareNotify) {
+			text += "準 ";
+			show = true;
+		}
 
-        if (rsp.skill && config.isSkillNotify) {
-            text += "奧 ";
-            show = true;
-        }
+		if (rsp.skill && config.isSkillNotify) {
+			text += "奧 ";
+			show = true;
+		}
 
-        if (rsp.soak && config.isSoakNotify) {
-            text += "泉 ";
-            show = true;
-        }
+		if (rsp.soak && config.isSoakNotify) {
+			text += "泉 ";
+			show = true;
+		}
 
-        if (rsp.food && config.isFoodNotify) {
-            text += "糧 ";
-            show = true;
-        }
+		if (rsp.food && config.isFoodNotify) {
+			text += "糧 ";
+			show = true;
+		}
 
-        if (rsp.fire && config.isFireNotify) {
-            text += "火 ";
-            show = true;
-        }
+		if (rsp.fire && config.isFireNotify) {
+			text += "火 ";
+			show = true;
+		}
 
-        if (rsp.land && config.isLandNotify) {
-            text += "地 ";
-            show = true;
-        }
+		if (rsp.land && config.isLandNotify) {
+			text += "地 ";
+			show = true;
+		}
 
-        if (rsp.wind && config.isWindNotify) {
-            text += "風 ";
-            show = true;
-        }
+		if (rsp.wind && config.isWindNotify) {
+			text += "風 ";
+			show = true;
+		}
 
-        if (rsp.water && config.isWaterNotify) {
-            text += "水 ";
-            show = true;
-        }
+		if (rsp.water && config.isWaterNotify) {
+			text += "水 ";
+			show = true;
+		}
 
-        if (rsp.sky && config.isSkyNotify) {
-            text += "空 ";
-            show = true;
-        }
+		if (rsp.sky && config.isSkyNotify) {
+			text += "空 ";
+			show = true;
+		}
 
 
-        // exit if no update need to be notified
-        if (show) {
+		// exit if no update need to be notified
+		if (show) {
 
 			if (isNotificationShown === false) {
 				notifyPlayer(text);
@@ -330,13 +325,13 @@
 				}
 			}
 
-            lastText = text;
-        }
-        else {
-            if (isNotificationShown) {
-                notification.cancel();
-            }
-        }
+			lastText = text;
+		}
+		else {
+			if (isNotificationShown) {
+				notification.cancel();
+			}
+		}
     }
 
 
