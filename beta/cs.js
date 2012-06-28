@@ -84,7 +84,6 @@ $(document).ready(function() {
 	// function to send read dom info to background.js
 	function notifyUser() {
 
-		//if (!document.getElementById("notify_count") && !document.getElementById("doing")) return;
 		content.nohome = false;
 		content.quest = false;
 		content.build = false;
@@ -99,7 +98,6 @@ $(document).ready(function() {
 		content.sky = false;
 
 		if (document.getElementById("doing")) {
-			//content.nohome = false;
 			content.quest = ifQuestNotify();
 			content.build = ($("#doing > div:contains('增建中')").length === 0) ? true : false;
 			content.prepare = ($("#doing > div:contains('增建準備中')").length === 0) ? true : false;
@@ -114,18 +112,7 @@ $(document).ready(function() {
 		}
 		else if (document.getElementById("notify_count")) {
 			content.nohome = true;
-			//content.quest = (document.getElementById("notify_count") && !document.getElementById("notify_count_main")) ? true : false;
 			content.quest = (!document.getElementById("notify_count_main")) ? true : false;
-			//content.build = false;
-			//content.prepare = false;
-			//content.skill = false;
-			//content.soak = false;
-			//content.food = false;
-			//content.fire = false;
-			//content.land = false;
-			//content.wind = false;
-			//content.water = false;
-		   // content.sky = false;
 		}
 
 		chrome.extension.sendRequest({ ask: 2, content: content });

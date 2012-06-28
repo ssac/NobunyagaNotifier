@@ -50,11 +50,11 @@
 	window.vote = vote;
 	
 
-    // game tab to keep tracking the current playing game
+	// game tab to keep tracking the current playing game
 	var target;
 
 
-    // flag whether the game is executing
+	// flag whether the game is executing
 	var isInGame = false;
 	
 
@@ -309,7 +309,7 @@
 		// exit if no update need to be notified
 		if (show) {
 
-			if (isNotificationShown === false) {
+			if (isNotificationShown) {
 				notifyPlayer(text);
 			}
 			else {
