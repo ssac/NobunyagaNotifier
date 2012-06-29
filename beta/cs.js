@@ -3,7 +3,6 @@ $(document).ready(function() {
 
 	var interval = 1000;
 	var content = new Object();
-	var isLastNohomeTrue = false;
 
 
 	/*
