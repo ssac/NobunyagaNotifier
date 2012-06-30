@@ -34,30 +34,33 @@
 
 <fieldset id="general_configs">
 	<legend>一般選項</legend>
-	<input type="checkbox" class="config" id="voice" />喵聲提示<br />
+	<input type="checkbox" class="config" id="voice" />喵聲提示
+	<button id="button-volume-decrease">-</button>
+	<span id="volume"></span>
+	<button id="button-volume-increase">+</button>
 </fieldset>
 		
 <fieldset id="configs">
 	<legend>以下條件成立時通知我</legend>
-	<input type="checkbox" class="config" id="nohome" />打完賊忘了回到里時<br />
-	<input type="checkbox" class="config" id="build" />沒有建築物增建中<br />
-	<input type="checkbox" class="config" id="prepare" />沒有建築物準備中<br />
-	<input type="checkbox" class="config" id="skill" />奧義所空閒（可多座）<br />
-	<input type="checkbox" class="config" id="soak" />溫泉空閒（可多座）<br />
-	<input type="checkbox" class="config" id="food" />糧食超過 90%<br />
-	<input type="checkbox" class="config" id="quest" />可以打賊、合戰<br />
+	<input type="checkbox" class="config" id="nohome" /><label for="nohome">打完賊忘了回到里時</label><br />
+	<input type="checkbox" class="config" id="build" /><label for="build">沒有建築物增建中</label><br />
+	<input type="checkbox" class="config" id="prepare" /><label for="prepare">沒有建築物準備中</label><br />
+	<input type="checkbox" class="config" id="skill" /><label for="skill">奧義所空閒（可多座）</label><br />
+	<input type="checkbox" class="config" id="soak" /><label for="soak">溫泉空閒（可多座）</label><br />
+	<input type="checkbox" class="config" id="food" /><label for="food">糧食超過 90%</label><br />
+	<input type="checkbox" class="config" id="quest" /><label for="quest">可以打賊、合戰</label><br />
 </fieldset>
 
 <fieldset id="coming">
 	<legend>未來更新</legend>
-	<input type="checkbox" class="config" id="japan" />日版支援<br />
-	<input type="checkbox" class="config" id="visit" />可以拜訪 & 有朋友沒拜訪</br />
-	<input type="checkbox" class="config" id="fire" />修練所【火】空閒（可多座）<br />
-	<input type="checkbox" class="config" id="land" />修練所【地】空閒（可多座）<br />
-	<input type="checkbox" class="config" id="wind" />修練所【風】空閒（可多座）<br />
-	<input type="checkbox" class="config" id="water" />修練所【水】空閒（可多座）<br />
-	<input type="checkbox" class="config" id="sky" />修練所【空】空閒（可多座）<br />
-	<input type="checkbox" class="config" id="close" />手動關閉提示框後不提示相同內容<br />
+	<input type="checkbox" class="config" id="japan" /><label for="japan">日版支援</label><br />
+	<input type="checkbox" class="config" id="visit" /><label for="visit">可以拜訪 & 有朋友沒拜訪</label></br />
+	<input type="checkbox" class="config" id="fire" /><label for="fire">修練所【火】空閒（可多座）</label><br />
+	<input type="checkbox" class="config" id="land" /><label for="land">修練所【地】空閒（可多座）</label><br />
+	<input type="checkbox" class="config" id="wind" /><label for="wind">修練所【風】空閒（可多座）</label><br />
+	<input type="checkbox" class="config" id="water" /><label for="water">修練所【水】空閒（可多座）</label><br />
+	<input type="checkbox" class="config" id="sky" /><label for="sky">修練所【空】空閒（可多座）</label><br />
+	<input type="checkbox" class="config" id="close" /><label for="close">手動關閉提示框後不提示相同內容</label><br />
 </fieldset>
 
 </body>

@@ -25,6 +25,9 @@
 		config.isNohomeNotify = (localStorage['isNohomeNotify']) ? convertStrBool(localStorage['isNohomeNotify']) : false;
 		config.isBrowserNotify = (localStorage['isBrowserNotify']) ? convertStrBool(localStorage['isBrowserNotify']) : true;
 		config.isDesktopNotify = (localStorage['isDesktopNotify']) ? convertStrBool(localStorage['isDesktopNotify']) : true;
+		
+		// this volume is the notification sound volume
+		config.volume = (localStorage['volume']) ? parseFloat(localStorage['volume']) : 1;
 	}
 
 
@@ -49,6 +52,26 @@
 	}
 	window.vote = vote;
 	
+	
+	// call function from popup.html
+	// bool == true: increase volume by 0.1
+	// bool == false: decrease volume by 0.1
+	function modifyVolume(bool) {
+		if (bool) {
+			if (config.volume < 1) {
+				config.volume = parseFloat((config.volume + 0.1).toFixed(1));
+				localStorage['volume'] = config.volume;
+			}
+		} 
+		else {
+			if (config.volume > 0) {
+				config.volume = parseFloat((config.volume - 0.1).toFixed(1));
+				localStorage['volume'] = config.volume;
+			}
+		}
+	}
+	window.modifyVolume = modifyVolume;
+	
 
 	// game tab to keep tracking the current playing game
 	var target;
@@ -59,16 +82,25 @@
 	
 
 	// function called from popup.html
+	// to check if the user has entered the game
 	function ifInGame() {
 		return isInGame;
 	}
 	window.ifInGame = ifInGame;
+	
+	
+	// function called from popup.html
+	// to get the volume of config
+	function getVolume() {
+		return config.volume;
+	}
+	window.getVolume = getVolume;
 
 
 	// notification-related variable
 	var notification;
 	var isNotificationShown = false;
-	var lastText;
+	var lastText = "";
 	var firstTimeToNotifyNohome;
 	var nohomeDelay = 3000;
 	var isLastTimeShowNohome = false;
@@ -92,7 +124,7 @@
 	function convertStrBool(str) {
 		return (str === 'true') ? true : false;
 	}
-
+	
 
 	function setGameConnected(tab) {
 		chrome.browserAction.setBadgeBackgroundColor({ color: [0, 255, 0, 255] });
@@ -217,10 +249,17 @@
 		}
 
 		notification.show();
+		
+		// the reason for re-claim this (compare to notification.ondisplay event, same statement) is 
+		// in browser fullscreen mode, notification.ondisplay event
+		// does not trigger. it's still workable for deleting notification.ondisplay event statement and 
+		// only leave this statement. I leave the ondisplay event statement for further reference.
+		isNotificationShown = true;
 
 		// play notice voice if the user set this
 		if (config.isVoiceNotify) {
 			var voice = document.getElementById("notice_voice");
+			voice.volume = config.volume;
 			voice.play();
 		}
 	}
@@ -308,19 +347,27 @@
 
 		// exit if no update need to be notified
 		if (show) {
+		
+			debug(1);
 
-			if (isNotificationShown) {
+			if (!isNotificationShown) {
 				notifyPlayer(text);
+				debug(2);
 			}
 			else {
 
 				// only notify user when the notification text had changed
 				if (text != lastText) {
 					notification.cancel();
+					
+					debug(3);
 
-					// this double check ensure no duplicate notification shown when chrome browser delay 
+					// this double check ensure no duplicate notification shown when chrome browser 
+					// busy (can not trigger notification.onclose in time) but the communication between bg.js and cs.js 
+					// keep running.
 					if (!isNotificationShown) {
 						notifyPlayer(text);
+						debug(4);
 					}
 				}
 			}

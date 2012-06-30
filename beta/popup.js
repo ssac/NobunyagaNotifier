@@ -9,8 +9,8 @@ $(document).ready(function() {
 		setAllConfgisDisabled();
 		return;
 	}
-
-
+	
+	
 	// notice user localStorage has not been enabled, application doesn't run 
 	if (!window.localStorage) {
 		$("#p_local_storage_not_supported").show();
@@ -23,6 +23,12 @@ $(document).ready(function() {
 	function Config(id, variable) {
 		this.id = id;
 		this.variable = variable;
+	}
+	
+	
+	function refreshVolume() {
+		var text = chrome.extension.getBackgroundPage().getVolume() * 100 + "%";
+		$("#volume").html(text);
 	}
 
 
@@ -91,4 +97,16 @@ $(document).ready(function() {
 	if (isPublish) {
 		$("#coming > input.config").attr("disabled", "disabled");
 	}
+	
+	$("#button-volume-increase").click(function() {
+		chrome.extension.getBackgroundPage().modifyVolume(true);
+		refreshVolume();
+	});
+	
+	$("#button-volume-decrease").click(function() {
+		chrome.extension.getBackgroundPage().modifyVolume(false);
+		refreshVolume();
+	});
+	
+	refreshVolume();
 });
