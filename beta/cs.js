@@ -28,7 +28,7 @@ $(document).ready(function() {
 		var num = 0;
 		
 		for (var i = 0; i < arr.length; i++) {
-			num += $("#mapbg > area." + arr[i]).length;
+			num += $("#mapbg > area." + arr[i] + ":not('.unpaid')").length;
 		}
 		
 		return num;

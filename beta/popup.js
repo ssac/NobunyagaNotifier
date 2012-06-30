@@ -1,7 +1,7 @@
 ﻿
 $(document).ready(function() {
 
-	var isPublish = true;
+	var isPublish = false;
 
 	// notice user the game has not found, ask user refresh the game tab
 	if (chrome.extension.getBackgroundPage().ifInGame() === false) {
