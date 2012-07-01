@@ -347,27 +347,21 @@
 
 		// exit if no update need to be notified
 		if (show) {
-		
-			debug(1);
 
 			if (!isNotificationShown) {
 				notifyPlayer(text);
-				debug(2);
 			}
 			else {
 
 				// only notify user when the notification text had changed
 				if (text != lastText) {
 					notification.cancel();
-					
-					debug(3);
 
 					// this double check ensure no duplicate notification shown when chrome browser 
 					// busy (can not trigger notification.onclose in time) but the communication between bg.js and cs.js 
 					// keep running.
 					if (!isNotificationShown) {
 						notifyPlayer(text);
-						debug(4);
 					}
 				}
 			}
