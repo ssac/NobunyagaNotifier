@@ -2,7 +2,9 @@
 (function () {
 
 	var website = "http://nyaframe.wasabii.com.tw/index.aspx";
+	var websiteJP = "http://yahoo-mbga.jp/game/*/play";
 	var queryInfo = {url: website};
+	var queryInfoJP = {url: websiteJP};
 
 	var config = new Object();
 	window.config = config;
@@ -144,6 +146,7 @@
 
 		if (isNotificationShown) {
 			notification.cancel();
+			isNotificationShown = false;
 		}
 	}
 
@@ -230,7 +233,7 @@
 
 	// notify user by chrome notification
 	function desktopNotification(text) {
-		notification = webkitNotifications.createNotification("icon/notification.png", '信喵之野望通知', text);
+		notification = webkitNotifications.createNotification("icon/notification.png", 'nyaNotifier', text);
 
 		notification.ondisplay = function () {
 			isNotificationShown = true;
@@ -290,7 +293,7 @@
 		}
 
 		if (rsp.quest && config.isQuestNotify) {
-			text += "賊/合 ";
+			text += "賊/合/場 ";
 			show = true;
 		}
 
@@ -310,7 +313,7 @@
 		}
 
 		if (rsp.soak && config.isSoakNotify) {
-			text += "泉 ";
+			text += "湯 ";
 			show = true;
 		}
 
@@ -355,11 +358,14 @@
 
 				// only notify user when the notification text had changed
 				if (text != lastText) {
-					notification.cancel();
-
+				
+					if (notification) {
+						notification.cancel();
+					}
+					
 					// this double check ensure no duplicate notification shown when chrome browser 
-					// busy (can not trigger notification.onclose in time) but the communication between bg.js and cs.js 
-					// keep running.
+					// busy (this program can chrome close notification are running asynchronize, chrome may not trigger notification.onclose in time) 
+					// but the communication between bg.js and cs.js keep running.
 					if (!isNotificationShown) {
 						notifyPlayer(text);
 					}
@@ -383,32 +389,36 @@
 			return;
 		}
 		
-		initSettings();
-		initListeners();
-		
 		setGameUnconnected();
 		
 		// only work under one game
 		chrome.tabs.query(queryInfo, function(arrtabs) {
-			// only work under one game running
-			if (arrtabs.length === 1) {
-				// reload the game to insert latest content scripts
-				chrome.tabs.reload(arrtabs[0].id);
-			}
-			else {
-				if (arrtabs.length > 1) {
-					console.log("Detect more than one game running, the extension is not going to operate.");
+		
+			chrome.tabs.query(queryInfoJP, function(arrtabsJP){
+			
+				if (arrtabs.length + arrtabsJP.length === 1) {
+					var gameTabID = (arrtabs.length === 1) ? arrtabs[0].id : arrtabsJP[0].id;
+					chrome.tabs.reload(gameTabID);
 				}
 				else {
-					console.log("Detect no game running, the extension is not going to operate.");
-				}
 				
-				setGameUnconnected();
-				return;
-			}
+					if (arrtabs.length === 0 && arrtabsJP.length === 0) {
+						console.log("Detect no game running, the extension is not going to operate untill new game found.");
+					}
+				
+					if (arrtabs.length > 1 || arrtabsJP.length > 1) {
+						console.log("Detect more than one game running, the extension is not going to operate.");
+					}
+					
+					setGameUnconnected();
+				}
+			});
 		});
 	}
+	window.start = start;
 
+	initSettings();
+	initListeners();
 	start();
 
 })();

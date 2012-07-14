@@ -20,9 +20,20 @@ $(document).ready(function() {
 
 
 	// config object constructor
+	// id: dom id
+	// variable: variable in bg.js
 	function Config(id, variable) {
 		this.id = id;
 		this.variable = variable;
+	}
+	
+	
+	// i18n text object constructor
+	// id: dom id
+	// key: i18n key
+	function Text(id, key) {
+		this.id = id;
+		this.key = key;
 	}
 	
 	
@@ -48,13 +59,44 @@ $(document).ready(function() {
 		new Config ("#nohome", "isNohomeNotify")
 	];
 
-
 	if (!isPublish) {
 		configs.push(new Config ("#fire", "isFireNotify"));
 		configs.push(new Config ("#land", "isLandNotify"));
 		configs.push(new Config ("#wind", "isWindNotify"));
 		configs.push(new Config ("#water", "isWaterNotify"));
 		configs.push(new Config ("#sky", "isSkyNotify"));
+	}
+	
+	
+	var texts = [
+		new Text("p_multi_game_not_supported", "p_multi_game_not_supported"),
+		new Text("p_not_found_game", "p_not_found_game"),
+		new Text("p_local_storage_not_supported", "p_local_storage_not_supported"),
+		new Text("i18n_general_setting", "general_setting"),
+		new Text("i18n_voice", "voice"),
+		new Text("i18n_conditions", "conditions"),
+		new Text("i18n_nohome", "note_nohome"),
+		new Text("i18n_build", "note_no_build"),
+		new Text("i18n_prepare", "note_no_prepare"),
+		new Text("i18n_skill", "note_skill_available"),
+		new Text("i18n_soak", "note_soak_available"),
+		new Text("i18n_food", "note_food_warn"),
+		new Text("i18n_quest", "note_quest_battle_available"),
+		new Text("i18n_coming_update", "coming_update"),
+		new Text("i18n_visit", "note_visit_available"),
+		new Text("i18n_fire", "note_fire_factory_available"),
+		new Text("i18n_land", "note_land_factory_available"),
+		new Text("i18n_wind", "note_wind_factory_available"),
+		new Text("i18n_water", "note_water_factory_available"),
+		new Text("i18n_sky", "note_sky_factory_available"),
+		new Text("reconnect", "reconnect")
+	];
+	
+	
+	// assign i18n text to popup.html
+	for (var i = 0; i < texts.length; i++) {
+		var i18nText = chrome.i18n.getMessage(texts[i].key);
+		$("#" + texts[i].id).html(i18nText);
 	}
 
 
@@ -82,6 +124,7 @@ $(document).ready(function() {
 	}
 
 
+	// set all configs disabled
 	function setAllConfgisDisabled() {
 		$("#general_configs > input.config").attr("disabled", "disabled");
 		$("#configs > input.config").attr("disabled", "disabled");
@@ -94,18 +137,28 @@ $(document).ready(function() {
 	});
 
 
+	// if this is publish version, set some notification disabled
 	if (isPublish) {
 		$("#coming > input.config").attr("disabled", "disabled");
 	}
 	
+	
+	// if the + button clicked, increase volume degree
 	$("#button-volume-increase").click(function() {
 		chrome.extension.getBackgroundPage().modifyVolume(true);
 		refreshVolume();
 	});
 	
+	
+	// if the - button clicked, decrease volume degree
 	$("#button-volume-decrease").click(function() {
 		chrome.extension.getBackgroundPage().modifyVolume(false);
 		refreshVolume();
+	});
+	
+	// reconnect the game for some undetected problem happen in full-screen
+	$("#reconnect").click(function() {
+		chrome.extension.getBackgroundPage().start();
 	});
 	
 	refreshVolume();

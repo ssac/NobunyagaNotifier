@@ -1,0 +1,85 @@
+﻿{
+	"reconnect": {
+		"message": "Reconnect"
+	},
+	
+	"p_multi_game_not_supported": {
+		"message": "Multi Game is not Supported Currently^^"
+	},
+	
+	"p_not_found_game": {
+		"message": "Can not Find the Game"
+	},
+	
+	"p_local_storage_not_supported": {
+		"message": "localStorage is not configured, Fixed it Firstly"
+	},
+
+	"general_setting": {
+		"message": "General Setting"
+	},
+	
+	"voice": {
+		"message": "Voice Notification"
+	},
+	
+	"conditions": {
+		"message": "Notify When:"
+	},
+	
+	"note_nohome": {
+		"message": "Forget to Return Village"
+	},
+	
+	"note_no_build": {
+		"message": "No Building Construction"
+	},
+	
+	"note_no_prepare": {
+		"message": "No Preparing Construction"
+	},
+	
+	"note_skill_available": {
+		"message": "Skill Factory Available"
+	},
+	
+	"note_soak_available": {
+		"message": "Soak Available"
+	},
+	
+	"note_food_warn": {
+		"message": "Food Over 90%"
+	},
+	
+	"note_quest_battle_available": {
+		"message": "Fight / Battle Available"
+	},
+	
+	"coming_update": {
+		"message": "Coming Update"
+	},
+	
+	"note_visit_available": {
+		"message": "Visit Available"
+	},
+	
+	"note_fire_factory_available": {
+		"message": "Fire Factory Available"
+	},
+	
+	"note_land_factory_available": {
+		"message": "Land Factory Available"
+	},
+	
+	"note_wind_factory_available": {
+		"message": "Wind Factory Available"
+	},
+	
+	"note_water_factory_available": {
+		"message": "Water Factory Available"
+	},
+	
+	"note_sky_factory_available": {
+		"message": "Sky Factory Available"
+	}
+}

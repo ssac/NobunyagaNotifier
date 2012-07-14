@@ -3,8 +3,55 @@ $(document).ready(function() {
 
 	var interval = 1000;
 	var content = new Object();
+	var flag = new Object();
 
 
+	function ifTWVersion() {
+		return (document.URL.match(/nyashindig.wasabii.com.tw\/gadgets/) == null) ? false : true;
+	}
+	
+	
+	function ifJPVersion() {
+		return (document.URL.match(/app.mbga-platform.jp\/*/) == null) ? false : true;
+	}
+	
+	
+	function initFlag() {
+		if (ifTWVersion()) {
+			flag.house = "貓場所"
+			flag.move = "完成移動";
+			flag.battle = "合戰";
+			flag.build = ["增建中", "建設中"];
+			flag.prepare = ["增建準備中", "建設準備中"];
+			flag.skill = "奧義開發將於";
+			flag.soak = "泡湯";
+			flag.fire = "修練火";
+			flag.land = "修練地";
+			flag.wind = "修練風";
+			flag.water = "修練水";
+			flag.sky = "修練空";
+			return true;
+		}
+		
+		if (ifJPVersion()) {
+			flag.house = "ねこ場所"
+			flag.move = "移動が";
+			flag.battle = "合戦";
+			flag.build = ["増築中", "建設中"];
+			flag.prepare = ["増築準備中", "建設準備中"];
+			flag.skill = "奥義開発が";
+			flag.soak = "入湯が";
+			flag.fire = "修練火";
+			flag.land = "修練地";
+			flag.wind = "修練風";
+			flag.water = "修練水";
+			flag.sky = "修練空";
+			return true;
+		}
+		
+		return false;
+	}
+	
 	/*
 	arr: array contains all builds identifier class
 	str: string to identify this building is working
@@ -54,13 +101,18 @@ $(document).ready(function() {
 
 	// detect if the user's battle team in move or questing
 	function ifInMove() {
-		return ($("#doing > div:contains('完成移動')").length !== 0) ? true : false;
+		return ($("#doing > div:contains('" + flag.move + "')").length !== 0) ? true : false;
+	}
+	
+	//
+	function ifInHouse() {
+		return ($("#doing > div:contains('" + flag.house + "')").length !== 0) ? true : false;
 	}
 
 
 	// detect if the user's battle team in fight (to another player)
 	function ifInBattle() {
-		return ($("#doing > div:contains('合戰')").length !== 0) ? true : false;
+		return ($("#doing > div:contains('" + flag.battle + "')").length !== 0) ? true : false;
 	}
 
 
@@ -76,7 +128,18 @@ $(document).ready(function() {
 
 
 	function ifQuestNotify() {
-		return (ifInMove() || ifInBattle()) ? false : true;
+		return (ifInMove() || ifInBattle() || ifInHouse()) ? false : true;
+	}
+	
+	
+	function ifContain(arr) {
+		for (var i = 0; i < arr.length; i++) {
+			if ($("#doing > div:contains('" + arr[i] + "')").length !== 0) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 
@@ -98,16 +161,18 @@ $(document).ready(function() {
 
 		if (document.getElementById("doing")) {
 			content.quest = ifQuestNotify();
-			content.build = ($("#doing > div:contains('增建中')").length === 0) ? true : false;
-			content.prepare = ($("#doing > div:contains('增建準備中')").length === 0) ? true : false;
-			content.skill = ifNotify(["type09", "type10"], "奧義開發將於");
-			content.soak = ifNotify(["type14"], "泡湯");
+			content.build = (ifContain(flag.build)) ? false : true;
+			content.prepare = (ifContain(flag.prepare)) ? false : true;
+			//content.build = ($("#doing > div:contains('增建中')").length === 0) ? true : false;
+			//content.prepare = ($("#doing > div:contains('增建準備中')").length === 0) ? true : false;
+			content.skill = ifNotify(["type09", "type10"], flag.skill);
+			content.soak = ifNotify(["type14"], flag.soak);
 			content.food = ifFoodNotify();
-			content.fire = ifNotify(["type03"], "修練火");
-			content.land = ifNotify(["type04"], "修練地");
-			content.wind = ifNotify(["type05"], "修練風");
-			content.water = ifNotify(["type06"], "修練水");
-			content.sky = ifNotify(["type07"], "修練空");
+			content.fire = ifNotify(["type03"], flag.fire);
+			content.land = ifNotify(["type04"], flag.land);
+			content.wind = ifNotify(["type05"], flag.wind);
+			content.water = ifNotify(["type06"], flag.water);
+			content.sky = ifNotify(["type07"], flag.sky);
 		}
 		else if (document.getElementById("notify_count")) {
 			content.nohome = true;
@@ -118,35 +183,41 @@ $(document).ready(function() {
 	}
 
 
-
 	/*
 	ask == 1: unload page
 	ask == 2: periodic update
 	ask == 3: notice game joining
 	*/
-
 	window.onunload = function () {
 		//if (!document.getElementById("doing")) return;
 		chrome.extension.sendRequest({ ask: 1 });
 	};
 
-
-	// ask if start to send data
-	chrome.extension.sendRequest({ ask: 3 }, function(rsp){
-		// got false means that the game is running, this is the second and next games
-		if (rsp.ans === true) {
-			//setInterval(notifyUser, interval);
-			
-			// send data once
-			notifyUser();
-		}
-	});
-
-
+	
 	// when this content script be asked to re-send data
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		if (request.ask === 1) {
 			setTimeout(notifyUser, interval);
+		}
+	});
+	
+	
+	// init the flag string value
+	// if can not detect the game content scripts, exit the content script
+	if (initFlag()) {
+		console.log("Game Detected.");
+	}
+	else {
+		return;
+	}
+	
+	
+	// ask if start to send data
+	chrome.extension.sendRequest({ ask: 3 }, function(rsp){
+		// got false means that the game is running, this is the second and next games
+		if (rsp.ans === true) {
+			// send data once
+			notifyUser();
 		}
 	});
 });

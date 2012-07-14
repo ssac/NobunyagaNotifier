@@ -1,7 +1,8 @@
 ﻿{
-	"name": "nyaNotifier 信喵之野望完成通知者 DEV",
+	"name": "nyaNotifier DEV",
 	"version": "0.0.0.0",
-	"description": "信喵之野望完成通知者 DEV",
+	"description": "nyaNotifier DEV",
+	"default_locale": "en",
 	"background": {
 		"page": "background.html"
 	},
@@ -22,6 +23,7 @@
 	"content_scripts": [
 		{
 			"matches": [
+				"http://*.app.mbga-platform.jp/*",
 				"http://nyashindig.wasabii.com.tw/gadgets/*"
 			],
 			"js": [
