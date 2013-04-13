@@ -2,20 +2,17 @@
 $(document).ready(function() {
 
 	var interval = 1000;
-	var content = new Object();
-	var flag = new Object();
-
+	var content = {};
+	var flag = {};
 
 	function ifTWVersion() {
-		return (document.URL.match(/nyashindig.wasabii.com.tw\/gadgets/) == null) ? false : true;
+		return !(document.URL.match(/nyashindig.wasabii.com.tw\/gadgets/) == null);
 	}
-	
-	
+
 	function ifJPVersion() {
-		return (document.URL.match(/app.mbga-platform.jp\/*/) == null) ? false : true;
+		return !(document.URL.match(/app.mbga-platform.jp\/*/) == null);
 	}
-	
-	
+
 	function initFlag() {
 		if (ifTWVersion()) {
 			flag.house = "貓場所"
@@ -32,7 +29,7 @@ $(document).ready(function() {
 			flag.sky = "修練空";
 			return true;
 		}
-		
+
 		if (ifJPVersion()) {
 			flag.house = "ねこ場所"
 			flag.move = "移動が";
@@ -48,13 +45,13 @@ $(document).ready(function() {
 			flag.sky = "修練空";
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/*
-	arr: array contains all builds identifier class
-	str: string to identify this building is working
+		arr: array contains all builds identifier class
+		str: string to identify this building is working
 	*/
 	function ifNotify(arr, str) {
 		// get number of buildings
@@ -63,58 +60,53 @@ $(document).ready(function() {
 		// get number of working
 		var numOfWorks = getNumOfWorks(str);
 
-		return (numOfBuilds > numOfWorks) ? true : false;
+		return numOfBuilds > numOfWorks;
 	}
 
-
 	/*
-	function: get the number of specified build
-	arr: array containing the class name of building
+		function: get the number of specified build
+		arr: array containing the class name of building
 	*/
 	function getNumOfBuilds(arr) {
 		var num = 0;
-		
+
 		for (var i = 0; i < arr.length; i++) {
 			num += $("#mapbg > area." + arr[i] + ":not('.unpaid')").length;
 		}
-		
+
 		return num;
 	}
 
-
 	/*
-	function: get the number of working building
+		function: get the number of working building
 	*/
 	function getNumOfWorks(str) {
 		var selector;
-		
+
 		if (ifInBattle()) {
 			selector = "#doing > div > div:contains('" + str + "')";
 		}
 		else {
 			selector = "#doing > div:contains('" + str + "')";
 		}
-		
+
 		return $(selector).length;
 	}
 
-
 	// detect if the user's battle team in move or questing
 	function ifInMove() {
-		return ($("#doing > div:contains('" + flag.move + "')").length !== 0) ? true : false;
-	}
-	
-	//
-	function ifInHouse() {
-		return ($("#doing > div:contains('" + flag.house + "')").length !== 0) ? true : false;
+		return $("#doing > div:contains('" + flag.move + "')").length !== 0;
 	}
 
+	//
+	function ifInHouse() {
+		return $("#doing > div:contains('" + flag.house + "')").length !== 0;
+	}
 
 	// detect if the user's battle team in fight (to another player)
 	function ifInBattle() {
-		return ($("#doing > div:contains('" + flag.battle + "')").length !== 0) ? true : false;
+		return $("#doing > div:contains('" + flag.battle + "')").length !== 0;
 	}
-
 
 	// function to detect if food over the warning line
 	function ifFoodNotify() {
@@ -123,29 +115,25 @@ $(document).ready(function() {
 		var cur_food = $("#element_food").text();
 		var max_food = $("#max_food").text();
 
-		return (cur_food / max_food > 0.9) ? true : false;
+		return cur_food / max_food > 0.9;
 	}
-
 
 	function ifQuestNotify() {
-		return (ifInMove() || ifInBattle() || ifInHouse()) ? false : true;
+		return !(ifInMove() || ifInBattle() || ifInHouse());
 	}
-	
-	
+
 	function ifContain(arr) {
 		for (var i = 0; i < arr.length; i++) {
 			if ($("#doing > div:contains('" + arr[i] + "')").length !== 0) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
-
 	// function to send read dom info to background.js
 	function notifyUser() {
-
 		content.nohome = false;
 		content.quest = false;
 		content.build = false;
@@ -159,12 +147,11 @@ $(document).ready(function() {
 		content.water = false;
 		content.sky = false;
 
+		// if player in home
 		if (document.getElementById("doing")) {
 			content.quest = ifQuestNotify();
-			content.build = (ifContain(flag.build)) ? false : true;
-			content.prepare = (ifContain(flag.prepare)) ? false : true;
-			//content.build = ($("#doing > div:contains('增建中')").length === 0) ? true : false;
-			//content.prepare = ($("#doing > div:contains('增建準備中')").length === 0) ? true : false;
+			content.build = !ifContain(flag.build);
+			content.prepare = !ifContain(flag.prepare);
 			content.skill = ifNotify(["type09", "type10"], flag.skill);
 			content.soak = ifNotify(["type14"], flag.soak);
 			content.food = ifFoodNotify();
@@ -176,32 +163,29 @@ $(document).ready(function() {
 		}
 		else if (document.getElementById("notify_count")) {
 			content.nohome = true;
-			content.quest = (!document.getElementById("notify_count_main")) ? true : false;
+			content.quest = !document.getElementById("notify_count_main");
 		}
 
 		chrome.extension.sendRequest({ ask: 2, content: content });
 	}
 
-
 	/*
-	ask == 1: unload page
-	ask == 2: periodic update
-	ask == 3: notice game joining
+		ask == 1: unload page
+		ask == 2: periodic update
+		ask == 3: notice game joining
 	*/
 	window.onunload = function () {
 		//if (!document.getElementById("doing")) return;
 		chrome.extension.sendRequest({ ask: 1 });
 	};
 
-	
 	// when this content script be asked to re-send data
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		if (request.ask === 1) {
 			setTimeout(notifyUser, interval);
 		}
 	});
-	
-	
+
 	// init the flag string value
 	// if can not detect the game content scripts, exit the content script
 	if (initFlag()) {
@@ -210,8 +194,7 @@ $(document).ready(function() {
 	else {
 		return;
 	}
-	
-	
+
 	// ask if start to send data
 	chrome.extension.sendRequest({ ask: 3 }, function(rsp){
 		// got false means that the game is running, this is the second and next games

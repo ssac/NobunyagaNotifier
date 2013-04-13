@@ -2,83 +2,75 @@
 	"reconnect": {
 		"message": "重新連接"
 	},
-	
+
 	"p_multi_game_not_supported": {
 		"message": "多開暫時不支援哦^^"
 	},
-	
+
 	"p_not_found_game": {
 		"message": "找不到遊戲，試試刷新遊戲^^"
 	},
-	
+
 	"p_local_storage_not_supported": {
 		"message": "使用前請開啟 localStorage: 「設定」->「顯示進階設定」->「隱私權說明」->「內容設定」->看有沒有開啟「允許網站儲存本站資料」"
 	},
-	
+
 	"general_setting": {
 		"message": "一般選項"
 	},
-	
+
 	"voice": {
 		"message": "喵聲提示"
 	},
-	
+
 	"conditions": {
 		"message": "以下條件成立時通知我"
 	},
-	
+
 	"note_nohome": {
 		"message": "打完賊忘了回到里時"
 	},
-	
+
 	"note_no_build": {
 		"message": "沒有建築物增建中"
 	},
-	
+
 	"note_no_prepare": {
 		"message": "沒有建築物準備中"
 	},
-	
+
 	"note_skill_available": {
 		"message": "奧義所空閒（可多座）"
 	},
-	
+
 	"note_soak_available": {
 		"message": "溫泉空閒（可多座）"
 	},
-	
+
 	"note_food_warn": {
 		"message": "糧食超過 90%"
 	},
-	
+
 	"note_quest_battle_available": {
 		"message": "可以打賊、合戰、貓場所"
 	},
-	
-	"coming_update": {
-		"message": "未來更新"
-	},
-	
-	"note_visit_available": {
-		"message": "可以拜訪 & 有朋友沒拜訪"
-	},
-	
+
 	"note_fire_factory_available": {
 		"message": "修練所【火】空閒（可多座）"
 	},
-	
+
 	"note_land_factory_available": {
 		"message": "修練所【地】空閒（可多座）"
 	},
-	
+
 	"note_wind_factory_available": {
 		"message": "修練所【風】空閒（可多座）"
 	},
-	
+
 	"note_water_factory_available": {
 		"message": "修練所【水】空閒（可多座）"
 	},
-	
+
 	"note_sky_factory_available": {
 		"message": "修練所【空】空閒（可多座）"
 	}

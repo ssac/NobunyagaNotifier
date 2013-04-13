@@ -3,15 +3,16 @@
 
 	var website = "http://nyaframe.wasabii.com.tw/index.aspx";
 	var websiteJP = "http://yahoo-mbga.jp/game/*/play";
-	var queryInfo = {url: website};
-	var queryInfoJP = {url: websiteJP};
+	var queryInfo = { url: website };
+	var queryInfoJP = { url: websiteJP };
 
-	var config = new Object();
+	var config = {};
 	window.config = config;
-	
 
+	/*
+		read from localstorage and set config
+	*/
 	function initSettings() {
-		// read the setting of localStorage
 		config.isVoiceNotify = (localStorage['isVoiceNotify']) ? convertStrBool(localStorage['isVoiceNotify']) : false;
 		config.isBuildNotify = (localStorage['isBuildNotify']) ? convertStrBool(localStorage['isBuildNotify']) : false;
 		config.isPrepareNotify = (localStorage['isPrepareNotify']) ? convertStrBool(localStorage['isPrepareNotify']) : false;
@@ -27,44 +28,48 @@
 		config.isNohomeNotify = (localStorage['isNohomeNotify']) ? convertStrBool(localStorage['isNohomeNotify']) : false;
 		config.isBrowserNotify = (localStorage['isBrowserNotify']) ? convertStrBool(localStorage['isBrowserNotify']) : true;
 		config.isDesktopNotify = (localStorage['isDesktopNotify']) ? convertStrBool(localStorage['isDesktopNotify']) : true;
-		
+
 		// this volume is the notification sound volume
 		config.volume = (localStorage['volume']) ? parseFloat(localStorage['volume']) : 1;
 	}
 
 
 	/*
-	function to set config calling from popup.html
-	name (string): config name
-	flag (boolean): config value
+		function to set config calling from popup.html
+		name (string): config name
+		flag (boolean): config value
 	*/
 	function setConfig(name, flag) {
 		config[name] = flag;
 		localStorage[name] = flag;
 	}
 	window.setConfig = setConfig;
-	
 
-	// direct user to the webpage of this extension, for them to vote
-	// function called from popup.html
+
+	/*
+		direct user to the webpage of this extension, for them to vote 5 stars
+		function called from popup.html
+	*/
 	function vote() {
 		chrome.tabs.create({
 			url: "https://chrome.google.com/webstore/detail/oeocjccojaaoejnphdledmkpjmnkflfi"
 		});
 	}
 	window.vote = vote;
-	
-	
-	// call function from popup.html
-	// bool == true: increase volume by 0.1
-	// bool == false: decrease volume by 0.1
+
+
+	/*
+		call function from popup.html
+		bool == true: increase volume by 0.1
+		bool == false: decrease volume by 0.1
+	*/
 	function modifyVolume(bool) {
 		if (bool) {
 			if (config.volume < 1) {
 				config.volume = parseFloat((config.volume + 0.1).toFixed(1));
 				localStorage['volume'] = config.volume;
 			}
-		} 
+		}
 		else {
 			if (config.volume > 0) {
 				config.volume = parseFloat((config.volume - 0.1).toFixed(1));
@@ -73,7 +78,7 @@
 		}
 	}
 	window.modifyVolume = modifyVolume;
-	
+
 
 	// game tab to keep tracking the current playing game
 	var target;
@@ -81,7 +86,7 @@
 
 	// flag whether the game is executing
 	var isInGame = false;
-	
+
 
 	// function called from popup.html
 	// to check if the user has entered the game
@@ -89,8 +94,8 @@
 		return isInGame;
 	}
 	window.ifInGame = ifInGame;
-	
-	
+
+
 	// function called from popup.html
 	// to get the volume of config
 	function getVolume() {
@@ -118,15 +123,15 @@
 
 
 	function ifInNoShowNohomePeriond() {
-		return ((new Date().getTime()) - firstTimeToNotifyNohome > nohomeDelay) ? false : true;
+		return !((new Date().getTime()) - firstTimeToNotifyNohome > nohomeDelay);
 	}
 
 
 	// since localStorage only save string value, the extension has to convert string to value manually
 	function convertStrBool(str) {
-		return (str === 'true') ? true : false;
+		return (str === 'true');
 	}
-	
+
 
 	function setGameConnected(tab) {
 		chrome.browserAction.setBadgeBackgroundColor({ color: [0, 255, 0, 255] });
@@ -153,17 +158,11 @@
 
 	function ifShowNohome() {
 		var currentTime = new Date().getTime();
-		if ((currentTime - firstTimeToNotifyNohome) > nohomeDelay) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return ((currentTime - firstTimeToNotifyNohome) > nohomeDelay)
 	}
 
 
 	function initListeners() {
-	
 		// when user close the tab, reset variables for next tab to open game
 		chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
 			if (isInGame && tabId == target.id) {
@@ -173,22 +172,20 @@
 		});
 
 		/*
-		ask == 1: game leave
-		ask == 2: game update
-		ask == 3: game enter
+			ask == 1: game leave
+			ask == 2: game update
+			ask == 3: game enter
 		*/
 		chrome.extension.onRequest.addListener(function (request, sender, sendResponse) {
-			//console.log(request);
-
 			if (request.ask === 2) {
 				// this background page is not supposed to received ask=2 message while it has not connect to game, print the error
 				if (!isInGame) {
 					console.log("Received DOM update while the game is not connected");
 					return;
 				}
-				
+
 				handleUpdate(request);
-				
+
 				// ask cs.js update data
 				if (target) {
 					chrome.tabs.sendRequest(target.id, { ask: 1 });
@@ -252,10 +249,10 @@
 		}
 
 		notification.show();
-		
-		// the reason for re-claim this (compare to notification.ondisplay event, same statement) is 
+
+		// the reason for re-claim this (compare to notification.ondisplay event, same statement) is
 		// in browser fullscreen mode, notification.ondisplay event
-		// does not trigger. it's still workable for deleting notification.ondisplay event statement and 
+		// does not trigger. it's still workable for deleting notification.ondisplay event statement and
 		// only leave this statement. I leave the ondisplay event statement for further reference.
 		isNotificationShown = true;
 
@@ -280,12 +277,12 @@
 			if (!isLastTimeShowNohome) {
 				firstTimeToNotifyNohome = new Date().getTime();
 			}
-			
+
 			if (!ifInNoShowNohomePeriond()) {
 				text += "里 ";
 				show = true;
 			}
-			
+
 			isLastTimeShowNohome = true;
 		}
 		else {
@@ -347,10 +344,7 @@
 			show = true;
 		}
 
-
-		// exit if no update need to be notified
 		if (show) {
-
 			if (!isNotificationShown) {
 				notifyPlayer(text);
 			}
@@ -358,13 +352,14 @@
 
 				// only notify user when the notification text had changed
 				if (text != lastText) {
-				
+
 					if (notification) {
 						notification.cancel();
 					}
-					
-					// this double check ensure no duplicate notification shown when chrome browser 
-					// busy (this program can chrome close notification are running asynchronize, chrome may not trigger notification.onclose in time) 
+
+					// this double check ensure no duplicate notification shown when chrome browser
+					// busy (this program can chrome close notification are running asynchronize,
+					// chrome may not trigger notification.onclose in time)
 					// but the communication between bg.js and cs.js keep running.
 					if (!isNotificationShown) {
 						notifyPlayer(text);
@@ -388,28 +383,28 @@
 			console.log("The browser does not support localStorage, it's going to exit.");
 			return;
 		}
-		
+
 		setGameUnconnected();
-		
+
 		// only work under one game
 		chrome.tabs.query(queryInfo, function(arrtabs) {
-		
+
 			chrome.tabs.query(queryInfoJP, function(arrtabsJP){
-			
+
 				if (arrtabs.length + arrtabsJP.length === 1) {
 					var gameTabID = (arrtabs.length === 1) ? arrtabs[0].id : arrtabsJP[0].id;
 					chrome.tabs.reload(gameTabID);
 				}
 				else {
-				
+
 					if (arrtabs.length === 0 && arrtabsJP.length === 0) {
 						console.log("Detect no game running, the extension is not going to operate untill new game found.");
 					}
-				
+
 					if (arrtabs.length > 1 || arrtabsJP.length > 1) {
 						console.log("Detect more than one game running, the extension is not going to operate.");
 					}
-					
+
 					setGameUnconnected();
 				}
 			});

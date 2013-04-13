@@ -1,17 +1,15 @@
 ﻿
 $(document).ready(function() {
 
-	var isPublish = false;
-
 	// notice user the game has not found, ask user refresh the game tab
 	if (chrome.extension.getBackgroundPage().ifInGame() === false) {
 		$("#p_not_found_game").show();
 		setAllConfgisDisabled();
 		return;
 	}
-	
-	
-	// notice user localStorage has not been enabled, application doesn't run 
+
+
+	// notice user localStorage has not been enabled, application doesn't run
 	if (!window.localStorage) {
 		$("#p_local_storage_not_supported").show();
 		setAllConfgisDisabled();
@@ -26,8 +24,8 @@ $(document).ready(function() {
 		this.id = id;
 		this.variable = variable;
 	}
-	
-	
+
+
 	// i18n text object constructor
 	// id: dom id
 	// key: i18n key
@@ -35,8 +33,8 @@ $(document).ready(function() {
 		this.id = id;
 		this.key = key;
 	}
-	
-	
+
+
 	function refreshVolume() {
 		var text = chrome.extension.getBackgroundPage().getVolume() * 100 + "%";
 		$("#volume").html(text);
@@ -56,18 +54,14 @@ $(document).ready(function() {
 		new Config ("#skill", "isSkillNotify"),
 		new Config ("#soak", "isSoakNotify"),
 		new Config ("#food", "isFoodNotify"),
-		new Config ("#nohome", "isNohomeNotify")
+		new Config ("#nohome", "isNohomeNotify"),
+		new Config ("#fire", "isFireNotify"),
+		new Config ("#land", "isLandNotify"),
+		new Config ("#wind", "isWindNotify"),
+		new Config ("#water", "isWaterNotify"),
+		new Config ("#sky", "isSkyNotify")
 	];
 
-	if (!isPublish) {
-		configs.push(new Config ("#fire", "isFireNotify"));
-		configs.push(new Config ("#land", "isLandNotify"));
-		configs.push(new Config ("#wind", "isWindNotify"));
-		configs.push(new Config ("#water", "isWaterNotify"));
-		configs.push(new Config ("#sky", "isSkyNotify"));
-	}
-	
-	
 	var texts = [
 		new Text("p_multi_game_not_supported", "p_multi_game_not_supported"),
 		new Text("p_not_found_game", "p_not_found_game"),
@@ -82,7 +76,6 @@ $(document).ready(function() {
 		new Text("i18n_soak", "note_soak_available"),
 		new Text("i18n_food", "note_food_warn"),
 		new Text("i18n_quest", "note_quest_battle_available"),
-		new Text("i18n_coming_update", "coming_update"),
 		new Text("i18n_visit", "note_visit_available"),
 		new Text("i18n_fire", "note_fire_factory_available"),
 		new Text("i18n_land", "note_land_factory_available"),
@@ -91,8 +84,8 @@ $(document).ready(function() {
 		new Text("i18n_sky", "note_sky_factory_available"),
 		new Text("reconnect", "reconnect")
 	];
-	
-	
+
+
 	// assign i18n text to popup.html
 	for (var i = 0; i < texts.length; i++) {
 		var i18nText = chrome.i18n.getMessage(texts[i].key);
@@ -102,12 +95,12 @@ $(document).ready(function() {
 
 	for (var i = 0; i < configs.length; i++) {
 		var config = configs[i];
-		
+
 		// read local storage data, mark specified checkbox if set true
 		if (chrome.extension.getBackgroundPage().config[config.variable] === true) {
 			setCheckboxChecked(config.id);
 		}
-		
+
 		bindEvent(config);
 	}
 
@@ -136,30 +129,23 @@ $(document).ready(function() {
 		chrome.extension.getBackgroundPage().vote();
 	});
 
-
-	// if this is publish version, set some notification disabled
-	if (isPublish) {
-		$("#coming > input.config").attr("disabled", "disabled");
-	}
-	
-	
 	// if the + button clicked, increase volume degree
 	$("#button-volume-increase").click(function() {
 		chrome.extension.getBackgroundPage().modifyVolume(true);
 		refreshVolume();
 	});
-	
-	
+
+
 	// if the - button clicked, decrease volume degree
 	$("#button-volume-decrease").click(function() {
 		chrome.extension.getBackgroundPage().modifyVolume(false);
 		refreshVolume();
 	});
-	
+
 	// reconnect the game for some undetected problem happen in full-screen
 	$("#reconnect").click(function() {
 		chrome.extension.getBackgroundPage().start();
 	});
-	
+
 	refreshVolume();
 });
