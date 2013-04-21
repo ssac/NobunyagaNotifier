@@ -1,0 +1,13 @@
+{
+  "name": "NobunyagaNotifier",
+  "version": "0.0.0",
+  "dependencies": {
+    "grunt": "",
+    "grunt-zip": "",
+    "grunt-contrib-uglify": ""
+  },
+  "private": true,
+  "devDependencies": {
+    "grunt": "~0.4.1"
+  }
+}

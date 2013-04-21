@@ -1,0 +1,10 @@
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Directories #
+###############
+/node_modules/
+/deploy/
+/product.zip
