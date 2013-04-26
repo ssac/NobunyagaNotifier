@@ -1,37 +1,18 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<style>
-		p { margin: 4px }
-
-		fieldset {
-			margin-bottom: 5px;
-			padding-bottom: 5px;
-		}
-
-		body {
-			width: 300px;
-			background-color: #e0ffff;
-		}
-
-		#vote { cursor: pointer }
-		#reconnect { float: left; }
-		.alert { color: red }
-		.radius { -webkit-border-radius: 10px; }
-	</style>
-
+	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="popup.js"></script>
 </head>
 
 <body>
-
 	<img id="vote" src="resources/header.png" />
 	<button id="reconnect" class="radius"></button>
-	<p style="text-align: right">nyaNotifier v0.39</p>
-	<p id="p_multi_game_not_supported" class="alert" hidden="hidden"></p>
-	<p id="p_not_found_game" class="alert" hidden="hidden"></p>
-	<p id="p_local_storage_not_supported" class="alert" hidden="hidden"></p>
+	<p class="version">nyaNotifier v0.39</p>
+	<p class="warn" id="p_multi_game_not_supported" ></p>
+	<p class="warn" id="p_not_found_game" ></p>
+	<p class="warn" id="p_local_storage_not_supported" ></p>
 
 	<fieldset id="general_configs">
 		<legend id="i18n_general_setting"></legend>
@@ -56,6 +37,5 @@
 		<input type="checkbox" class="config" id="water" /><label id="i18n_water" for="water"></label><br />
 		<input type="checkbox" class="config" id="sky" /><label id="i18n_sky" for="sky"></label><br />
 	</fieldset>
-
 </body>
 </html>

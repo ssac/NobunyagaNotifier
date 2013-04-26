@@ -1,0 +1,34 @@
+p {
+  margin: 4px;
+}
+
+fieldset {
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+}
+
+body {
+  width: 300px;
+  background-color: #e0ffff;
+}
+
+#vote {
+  cursor: pointer;
+}
+
+#reconnect {
+  float: left;
+}
+
+.radius {
+  border-radius: 10px;
+}
+
+.version {
+  text-align: right;
+}
+
+.warn {
+  color: red;
+  display: none;
+}
