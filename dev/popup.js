@@ -39,8 +39,7 @@ $(document).ready(function() {
 
 	// set all configs disabled
 	function setAllConfgisDisabled() {
-		$("#general_configs > input.config").attr("disabled", "disabled");
-		$("#configs > input.config").attr("disabled", "disabled");
+		$("input.config").attr("disabled", "disabled");
 	}
 
 	var configs = [

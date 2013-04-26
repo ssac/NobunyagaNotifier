@@ -2,6 +2,10 @@ p {
   margin: 4px;
 }
 
+label {
+  font-size: 16px !important;
+}
+
 fieldset {
   margin-bottom: 5px;
   padding-bottom: 5px;
@@ -9,7 +13,6 @@ fieldset {
 
 body {
   width: 300px;
-  background-color: #e0ffff;
 }
 
 #vote {
@@ -20,15 +23,28 @@ body {
   float: left;
 }
 
-.radius {
+/*.radius {
   border-radius: 10px;
-}
+}*/
 
 .version {
   text-align: right;
+  margin-top: 5px;
 }
 
 .warn {
-  color: red;
   display: none;
+}
+
+.title {
+  text-align: center;
+}
+
+#volume {
+  display: inline-block;
+  width: 40px;
+  height: 26px;
+  line-height: 26px;
+  vertical-align: middle;
+  text-align: center;
 }

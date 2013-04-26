@@ -2,40 +2,102 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="lib/bootstrap.min.js"></script>
 	<script type="text/javascript" src="popup.js"></script>
 </head>
 
 <body>
 	<img id="vote" src="resources/header.png" />
-	<button id="reconnect" class="radius"></button>
+	<!-- <button id="reconnect" class="radius btn btn-danger"></button> -->
 	<p class="version">nyaNotifier v0.39</p>
-	<p class="warn" id="p_multi_game_not_supported" ></p>
-	<p class="warn" id="p_not_found_game" ></p>
-	<p class="warn" id="p_local_storage_not_supported" ></p>
+	<p class="warn alert alert-error" id="p_multi_game_not_supported" ></p>
+	<p class="warn alert alert-error" id="p_not_found_game" ></p>
+	<p class="warn alert alert-error" id="p_local_storage_not_supported" ></p>
 
 	<fieldset id="general_configs">
-		<legend id="i18n_general_setting"></legend>
-		<input type="checkbox" class="config" id="voice" /><label id="i18n_voice" for="voice"></label>
+		<!-- <legend id="i18n_general_setting"></legend> -->
+
+		<!-- <input type="checkbox" class="config" id="voice" />
+		<label id="i18n_voice" for="voice" class="checkbox"></label>
 		<button id="button-volume-decrease" class="radius">-</button>
 		<span id="volume"></span>
-		<button id="button-volume-increase" class="radius">+</button>
+		<button id="button-volume-increase" class="radius">+</button> -->
+
+		<label class="checkbox">
+			<input type="checkbox" class="config" id="voice" />
+			<span id="i18n_voice" for="voice" >
+		</label>
+		<button id="button-volume-decrease" class="btn btn-primary">-</button>
+		<span id="volume"></span>
+		<button id="button-volume-increase" class="btn btn-primary">+</button>
 	</fieldset>
 
 	<fieldset id="configs">
-		<legend id="i18n_conditions"></legend>
-		<input type="checkbox" class="config" id="nohome" /><label id="i18n_nohome" for="nohome"></label><br />
-		<input type="checkbox" class="config" id="build" /><label id="i18n_build" for="build"></label><br />
-		<input type="checkbox" class="config" id="prepare" /><label id="i18n_prepare" for="prepare"></label><br />
-		<input type="checkbox" class="config" id="skill" /><label id="i18n_skill" for="skill"></label><br />
-		<input type="checkbox" class="config" id="soak" /><label id="i18n_soak" for="soak"></label><br />
-		<input type="checkbox" class="config" id="food" /><label id="i18n_food" for="food"></label><br />
-		<input type="checkbox" class="config" id="quest" /><label id="i18n_quest" for="quest"></label><br />
-		<input type="checkbox" class="config" id="fire" /><label id="i18n_fire" for="fire"></label><br />
-		<input type="checkbox" class="config" id="land" /><label id="i18n_land" for="land"></label><br />
-		<input type="checkbox" class="config" id="wind" /><label id="i18n_wind" for="wind"></label><br />
-		<input type="checkbox" class="config" id="water" /><label id="i18n_water" for="water"></label><br />
-		<input type="checkbox" class="config" id="sky" /><label id="i18n_sky" for="sky"></label><br />
+		<!-- <legend id="i18n_conditions"></legend> -->
+		<h4 id="i18n_conditions" class="title"></h5>
+
+		<label for="nohome" class="checkbox">
+			<input type="checkbox" class="config" id="nohome" />
+			<span id="i18n_nohome"></span>
+		</label>
+
+		<label for="build" class="checkbox">
+			<input type="checkbox" class="config" id="build" />
+			<span id="i18n_build"></span>
+		</label>
+
+		<label for="prepare" class="checkbox">
+			<input type="checkbox" class="config" id="prepare" />
+			<span id="i18n_prepare"></span>
+		</label>
+
+		<label for="skill" class="checkbox">
+			<input type="checkbox" class="config" id="skill" />
+			<span id="i18n_skill"></span>
+		</label>
+
+		<label for="soak" class="checkbox">
+			<input type="checkbox" class="config" id="soak" />
+			<span id="i18n_soak"></span>
+		</label>
+
+		<label for="food" class="checkbox">
+			<input type="checkbox" class="config" id="food" />
+			<span id="i18n_food"></span>
+		</label>
+
+		<label for="quest" class="checkbox">
+			<input type="checkbox" class="config" id="quest" />
+			<span id="i18n_quest"></span>
+		</label>
+
+		<label for="fire" class="checkbox">
+			<input type="checkbox" class="config" id="fire" />
+			<span id="i18n_fire"></span>
+		</label>
+
+		<label for="land" class="checkbox">
+			<input type="checkbox" class="config" id="land" />
+			<span id="i18n_land"></span>
+		</label>
+
+		<label for="wind" class="checkbox">
+			<input type="checkbox" class="config" id="wind" />
+			<span id="i18n_wind"></span>
+		</label>
+
+		<label for="water" class="checkbox">
+			<input type="checkbox" class="config" id="water" />
+			<span id="i18n_water"></span>
+		</label>
+
+		<label for="sky" class="checkbox">
+			<input type="checkbox" class="config" id="sky" />
+			<span id="i18n_sky"></span>
+		</label>
+
 	</fieldset>
 </body>
 </html>
