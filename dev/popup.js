@@ -1,22 +1,5 @@
 ﻿
 $(document).ready(function() {
-
-	// notice user the game has not found, ask user refresh the game tab
-	if (chrome.extension.getBackgroundPage().ifInGame() === false) {
-		$("#p_not_found_game").show();
-		setAllConfgisDisabled();
-		return;
-	}
-
-
-	// notice user localStorage has not been enabled, application doesn't run
-	if (!window.localStorage) {
-		$("#p_local_storage_not_supported").show();
-		setAllConfgisDisabled();
-		return;
-	}
-
-
 	// config object constructor
 	// id: dom id
 	// variable: variable in bg.js
@@ -24,7 +7,6 @@ $(document).ready(function() {
 		this.id = id;
 		this.variable = variable;
 	}
-
 
 	// i18n text object constructor
 	// id: dom id
@@ -34,17 +16,32 @@ $(document).ready(function() {
 		this.key = key;
 	}
 
-
 	function refreshVolume() {
 		var text = chrome.extension.getBackgroundPage().getVolume() * 100 + "%";
 		$("#volume").html(text);
 	}
 
-
 	function setCheckboxChecked(id) {
 		$(id).attr("checked", "checked");
 	}
 
+	// each time user actives a notification, ask background.js to save it
+	function bindEvent(config) {
+		$(config.id).click(function () {
+			if ($(config.id).attr("checked") == "checked") {
+				chrome.extension.getBackgroundPage().setConfig(config.variable, true);
+			}
+			else {
+				chrome.extension.getBackgroundPage().setConfig(config.variable, false);
+			}
+		});
+	}
+
+	// set all configs disabled
+	function setAllConfgisDisabled() {
+		$("#general_configs > input.config").attr("disabled", "disabled");
+		$("#configs > input.config").attr("disabled", "disabled");
+	}
 
 	var configs = [
 		new Config ("#voice", "isVoiceNotify"),
@@ -85,13 +82,25 @@ $(document).ready(function() {
 		new Text("reconnect", "reconnect")
 	];
 
+	// notice user the game has not found, ask user refresh the game tab
+	if (chrome.extension.getBackgroundPage().ifInGame() === false) {
+		$("#p_not_found_game").show();
+		setAllConfgisDisabled();
+		return;
+	}
+
+	// notice user localStorage has not been enabled, application doesn't run
+	if (!window.localStorage) {
+		$("#p_local_storage_not_supported").show();
+		setAllConfgisDisabled();
+		return;
+	}
 
 	// assign i18n text to popup.html
 	for (var i = 0; i < texts.length; i++) {
 		var i18nText = chrome.i18n.getMessage(texts[i].key);
 		$("#" + texts[i].id).html(i18nText);
 	}
-
 
 	for (var i = 0; i < configs.length; i++) {
 		var config = configs[i];
@@ -104,26 +113,6 @@ $(document).ready(function() {
 		bindEvent(config);
 	}
 
-
-	function bindEvent(config) {
-		$(config.id).click(function () {
-			if ($(config.id).attr("checked") == "checked") {
-				chrome.extension.getBackgroundPage().setConfig(config.variable, true);
-			}
-			else {
-				chrome.extension.getBackgroundPage().setConfig(config.variable, false);
-			}
-		});
-	}
-
-
-	// set all configs disabled
-	function setAllConfgisDisabled() {
-		$("#general_configs > input.config").attr("disabled", "disabled");
-		$("#configs > input.config").attr("disabled", "disabled");
-	}
-
-
 	// redirect user to this extension installation page
 	$("#vote").click(function() {
 		chrome.extension.getBackgroundPage().vote();
@@ -134,7 +123,6 @@ $(document).ready(function() {
 		chrome.extension.getBackgroundPage().modifyVolume(true);
 		refreshVolume();
 	});
-
 
 	// if the - button clicked, decrease volume degree
 	$("#button-volume-decrease").click(function() {
