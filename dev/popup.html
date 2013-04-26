@@ -16,88 +16,113 @@
 	<p class="warn alert alert-error" id="p_not_found_game" ></p>
 	<p class="warn alert alert-error" id="p_local_storage_not_supported" ></p>
 
-	<fieldset id="general_configs">
-		<!-- <legend id="i18n_general_setting"></legend> -->
+	<div class="tabbable">
+		<ul class="nav nav-tabs">
+			<li class="active"> <a href="#tab1" data-toggle="tab">Settings</a></li>
+			<li><a href="#tab2" data-toggle="tab">Links</a></li>
+		</ul>
 
-		<!-- <input type="checkbox" class="config" id="voice" />
-		<label id="i18n_voice" for="voice" class="checkbox"></label>
-		<button id="button-volume-decrease" class="radius">-</button>
-		<span id="volume"></span>
-		<button id="button-volume-increase" class="radius">+</button> -->
+		<div class="tab-content">
+			<div class="tab-pane active" id="tab1">
+	      <fieldset id="general_configs">
+					<label class="checkbox">
+						<input type="checkbox" class="config" id="voice" />
+						<span id="i18n_voice" for="voice" >
+					</label>
+					<button id="button-volume-decrease" class="btn btn-primary">-</button>
+					<span id="volume"></span>
+					<button id="button-volume-increase" class="btn btn-primary">+</button>
+				</fieldset>
 
-		<label class="checkbox">
-			<input type="checkbox" class="config" id="voice" />
-			<span id="i18n_voice" for="voice" >
-		</label>
-		<button id="button-volume-decrease" class="btn btn-primary">-</button>
-		<span id="volume"></span>
-		<button id="button-volume-increase" class="btn btn-primary">+</button>
-	</fieldset>
+				<fieldset id="configs">
+					<!-- <legend id="i18n_conditions"></legend> -->
+					<h4 id="i18n_conditions" class="title"></h5>
 
-	<fieldset id="configs">
-		<!-- <legend id="i18n_conditions"></legend> -->
-		<h4 id="i18n_conditions" class="title"></h5>
+					<label for="nohome" class="checkbox">
+						<input type="checkbox" class="config" id="nohome" />
+						<span id="i18n_nohome"></span>
+					</label>
 
-		<label for="nohome" class="checkbox">
-			<input type="checkbox" class="config" id="nohome" />
-			<span id="i18n_nohome"></span>
-		</label>
+					<label for="build" class="checkbox">
+						<input type="checkbox" class="config" id="build" />
+						<span id="i18n_build"></span>
+					</label>
 
-		<label for="build" class="checkbox">
-			<input type="checkbox" class="config" id="build" />
-			<span id="i18n_build"></span>
-		</label>
+					<label for="prepare" class="checkbox">
+						<input type="checkbox" class="config" id="prepare" />
+						<span id="i18n_prepare"></span>
+					</label>
 
-		<label for="prepare" class="checkbox">
-			<input type="checkbox" class="config" id="prepare" />
-			<span id="i18n_prepare"></span>
-		</label>
+					<label for="skill" class="checkbox">
+						<input type="checkbox" class="config" id="skill" />
+						<span id="i18n_skill"></span>
+					</label>
 
-		<label for="skill" class="checkbox">
-			<input type="checkbox" class="config" id="skill" />
-			<span id="i18n_skill"></span>
-		</label>
+					<label for="soak" class="checkbox">
+						<input type="checkbox" class="config" id="soak" />
+						<span id="i18n_soak"></span>
+					</label>
 
-		<label for="soak" class="checkbox">
-			<input type="checkbox" class="config" id="soak" />
-			<span id="i18n_soak"></span>
-		</label>
+					<label for="food" class="checkbox">
+						<input type="checkbox" class="config" id="food" />
+						<span id="i18n_food"></span>
+					</label>
 
-		<label for="food" class="checkbox">
-			<input type="checkbox" class="config" id="food" />
-			<span id="i18n_food"></span>
-		</label>
+					<label for="quest" class="checkbox">
+						<input type="checkbox" class="config" id="quest" />
+						<span id="i18n_quest"></span>
+					</label>
 
-		<label for="quest" class="checkbox">
-			<input type="checkbox" class="config" id="quest" />
-			<span id="i18n_quest"></span>
-		</label>
+					<label for="fire" class="checkbox">
+						<input type="checkbox" class="config" id="fire" />
+						<span id="i18n_fire"></span>
+					</label>
 
-		<label for="fire" class="checkbox">
-			<input type="checkbox" class="config" id="fire" />
-			<span id="i18n_fire"></span>
-		</label>
+					<label for="land" class="checkbox">
+						<input type="checkbox" class="config" id="land" />
+						<span id="i18n_land"></span>
+					</label>
 
-		<label for="land" class="checkbox">
-			<input type="checkbox" class="config" id="land" />
-			<span id="i18n_land"></span>
-		</label>
+					<label for="wind" class="checkbox">
+						<input type="checkbox" class="config" id="wind" />
+						<span id="i18n_wind"></span>
+					</label>
 
-		<label for="wind" class="checkbox">
-			<input type="checkbox" class="config" id="wind" />
-			<span id="i18n_wind"></span>
-		</label>
+					<label for="water" class="checkbox">
+						<input type="checkbox" class="config" id="water" />
+						<span id="i18n_water"></span>
+					</label>
 
-		<label for="water" class="checkbox">
-			<input type="checkbox" class="config" id="water" />
-			<span id="i18n_water"></span>
-		</label>
+					<label for="sky" class="checkbox">
+						<input type="checkbox" class="config" id="sky" />
+						<span id="i18n_sky"></span>
+					</label>
+				</fieldset>
+	    </div>
 
-		<label for="sky" class="checkbox">
-			<input type="checkbox" class="config" id="sky" />
-			<span id="i18n_sky"></span>
-		</label>
+	    <div class="tab-pane" id="tab2">
+	    	<p>Server</P>
+	    	<ul>
+	    		<li><a class="link" href="http://nyaframe.wasabii.com.tw/index.aspx">Taiwan server</a></li>
+	    		<li><a class="link" href="http://www.gamecity.ne.jp/nobunyaga/">Japan server</a></li>
+	    	</ul>
 
-	</fieldset>
+	    	<p>nyaNotifier</p>
+	    	<ul>
+	    		<li><a class="link" href="http://code-at-night.blogspot.hk/">Official site</a></li>
+	    		<li><a class="link" href="https://chrome.google.com/webstore/detail/oeocjccojaaoejnphdledmkpjmnkflfi">Chrome extension</a></li>
+	    		<li><a class="link" href="http://forum.gamer.com.tw/C.php?bsn=19881&snA=13622">巴哈討論區</a></li>
+	    	</ul>
+
+	    	<p>Useful Sites</p>
+	    	<ul>
+	    		<li><a class="link" href="http://forum.gamer.com.tw/A.php?bsn=19881">巴哈討論區</a></li>
+	    		<li><a class="link" href="http://www.wretch.cc/blog/logic2988">信喵兵法集</a></li>
+	    		<li><a class="link" href="http://nobunyaga.wiki.fc2.com/">のぶニャがの野望攻略wiki</a></li>
+	    	</ul>
+	    </div>
+		</div>
+
+
 </body>
 </html>

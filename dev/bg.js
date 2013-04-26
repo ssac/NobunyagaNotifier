@@ -57,6 +57,13 @@
 	}
 	window.vote = vote;
 
+	function openlink(url) {
+		chrome.tabs.create({
+			url: url
+		});
+	}
+	window.openlink = openlink;
+
 
 	/*
 		call function from popup.html

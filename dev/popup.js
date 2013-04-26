@@ -87,6 +87,15 @@ $(document).ready(function() {
 		$("#" + texts[i].id).html(i18nText);
 	}
 
+	$(document).on('click', "a.link", function(e) {
+		chrome.extension.getBackgroundPage().openlink(e.currentTarget.href);
+	});
+
+	// redirect user to this extension installation page
+	$("#vote").click(function() {
+		chrome.extension.getBackgroundPage().vote();
+	});
+
 	// notice user the game has not found, ask user refresh the game tab
 	if (chrome.extension.getBackgroundPage().ifInGame() === false) {
 		$("#p_not_found_game").show();
@@ -111,11 +120,6 @@ $(document).ready(function() {
 
 		bindEvent(config);
 	}
-
-	// redirect user to this extension installation page
-	$("#vote").click(function() {
-		chrome.extension.getBackgroundPage().vote();
-	});
 
 	// if the + button clicked, increase volume degree
 	$("#button-volume-increase").click(function() {
