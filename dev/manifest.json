@@ -1,6 +1,6 @@
 ﻿{
 	"name": "nyaNotifier",
-	"version": "0.38",
+	"version": "0.39",
 	"manifest_version": 2,
 	"description": "nyaNotifier 信喵之野望完成通知者",
 	"default_locale": "en",

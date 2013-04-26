@@ -82,6 +82,12 @@ $(document).ready(function() {
 		new Text("reconnect", "reconnect")
 	];
 
+	// assign i18n text to popup.html
+	for (var i = 0; i < texts.length; i++) {
+		var i18nText = chrome.i18n.getMessage(texts[i].key);
+		$("#" + texts[i].id).html(i18nText);
+	}
+
 	// notice user the game has not found, ask user refresh the game tab
 	if (chrome.extension.getBackgroundPage().ifInGame() === false) {
 		$("#p_not_found_game").show();
@@ -94,12 +100,6 @@ $(document).ready(function() {
 		$("#p_local_storage_not_supported").show();
 		setAllConfgisDisabled();
 		return;
-	}
-
-	// assign i18n text to popup.html
-	for (var i = 0; i < texts.length; i++) {
-		var i18nText = chrome.i18n.getMessage(texts[i].key);
-		$("#" + texts[i].id).html(i18nText);
 	}
 
 	for (var i = 0; i < configs.length; i++) {
