@@ -17,6 +17,10 @@ body {
   font-size: 16px !important;
 }
 
+input[type='checkbox'] {
+  margin-top: 6px !important;
+}
+
 #vote {
   cursor: pointer;
 }
@@ -49,4 +53,8 @@ body {
   line-height: 26px;
   vertical-align: middle;
   text-align: center;
+}
+
+.voice-control {
+  display: inline-block;
 }
