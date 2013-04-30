@@ -1,6 +1,6 @@
 ﻿{
 	"name": "nyaNotifier",
-	"version": "0.39",
+	"version": "0.40",
 	"manifest_version": 2,
 	"description": "nyaNotifier 信喵之野望完成通知者",
 	"default_locale": "en",
@@ -24,7 +24,8 @@
 		{
 			"matches": [
 				"http://*.app.mbga-platform.jp/*",
-				"http://nyashindig.wasabii.com.tw/gadgets/*"
+				"http://nyashindig.wasabii.com.tw/gadgets/*",
+				"http://nyashindig.86game.com/shindig/gadgets/*"
 			],
 			"js": [
 				"jquery-1.7.2.min.js",

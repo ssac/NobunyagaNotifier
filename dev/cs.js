@@ -13,6 +13,10 @@ $(document).ready(function() {
 		return !(document.URL.match(/app.mbga-platform.jp\/*/) == null);
 	}
 
+	function ifCNVersion() {
+		return !(document.URL.match(/nyashindig.86game.com\/shindig\/gadgets/) == null);
+	}
+
 	function initFlag() {
 		if (ifTWVersion()) {
 			flag.house   = "貓場所"
@@ -43,6 +47,22 @@ $(document).ready(function() {
 			flag.wind    = "修練風";
 			flag.water   = "修練水";
 			flag.sky     = "修練空";
+			return true;
+		}
+
+		if (ifCNVersion()) {
+			flag.house   = "猫场所"
+			flag.move    = "完成移动";
+			flag.battle  = "合战";
+			flag.build   = ["增建中", "建设中"];
+			flag.prepare = ["增建准备中", "建设准备中"];
+			flag.skill   = "奥义开发将於";
+			flag.soak    = "泡汤";
+			flag.fire    = "修练火";
+			flag.land    = "修练地";
+			flag.wind    = "修练风";
+			flag.water   = "修练水";
+			flag.sky     = "修练空";
 			return true;
 		}
 

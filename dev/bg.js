@@ -3,8 +3,10 @@
 
 	var website = "http://nyaframe.wasabii.com.tw/index.aspx";
 	var websiteJP = "http://yahoo-mbga.jp/game/*/play";
+	var websiteCN = "http://86game.com/gameindex.aspx"
 	var queryInfo = { url: website };
 	var queryInfoJP = { url: websiteJP };
+	var queryInfoCN = { url: websiteCN };
 
 	var config = {};
 	window.config = config;
@@ -398,22 +400,37 @@
 
 			chrome.tabs.query(queryInfoJP, function(arrtabsJP){
 
-				if (arrtabs.length + arrtabsJP.length === 1) {
-					var gameTabID = (arrtabs.length === 1) ? arrtabs[0].id : arrtabsJP[0].id;
-					chrome.tabs.reload(gameTabID);
-				}
-				else {
+				chrome.tabs.query(queryInfoCN, function(arrtabsCN) {
 
-					if (arrtabs.length === 0 && arrtabsJP.length === 0) {
-						console.log("Detect no game running, the extension is not going to operate untill new game found.");
+					if (arrtabs.length + arrtabsJP.length + arrtabsCN.length === 1) {
+						var gameTabID = null;
+
+						if (arrtabs.length === 1) {
+							gameTabID = arrtabs[0].id;
+						}
+						else if (arrtabs.length === 1) {
+							gameTabID = arrtabsJP[0].id;
+						}
+						else if (arrtabs.length === 1) {
+							gameTabID = arrtabsCN[0].id;
+						}
+
+						chrome.tabs.reload(gameTabID);
+					}
+					else {
+
+						if (arrtabs.length === 0 && arrtabsJP.length === 0 && arrtabsCN.length === 0) {
+							console.log("Detect no game running, the extension is not going to operate untill new game found.");
+						}
+
+						if (arrtabs.length > 1 || arrtabsJP.length > 1 || arrtabsCN.length > 1) {
+							console.log("Detect more than one game running, the extension is not going to operate.");
+						}
+
+						setGameUnconnected();
 					}
 
-					if (arrtabs.length > 1 || arrtabsJP.length > 1) {
-						console.log("Detect more than one game running, the extension is not going to operate.");
-					}
-
-					setGameUnconnected();
-				}
+				});
 			});
 		});
 	}
