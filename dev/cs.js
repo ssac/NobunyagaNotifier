@@ -51,13 +51,13 @@ $(document).ready(function() {
 		}
 
 		if (ifCNVersion()) {
-			flag.house   = "猫场所"
-			flag.move    = "完成移动";
+			flag.house   = "猫道场"
+			flag.move    = "移动将于";
 			flag.battle  = "合战";
-			flag.build   = ["增建中", "建设中"];
-			flag.prepare = ["增建准备中", "建设准备中"];
-			flag.skill   = "奥义开发将於";
-			flag.soak    = "泡汤";
+			flag.build   = ["增建中", "建造中"];
+			flag.prepare = ["增建准备中", "建造准备中"];
+			flag.skill   = "奥义开发将于";
+			flag.soak    = "温泉";
 			flag.fire    = "修练火";
 			flag.land    = "修练地";
 			flag.wind    = "修练风";

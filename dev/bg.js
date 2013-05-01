@@ -1,13 +1,22 @@
 ﻿
-(function () {
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-39548375-2']);
+_gaq.push(['_trackPageview']);
 
-	var website = "http://nyaframe.wasabii.com.tw/index.aspx";
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = 'https://ssl.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+
+(function () {
+	var websiteTW = "http://nyaframe.wasabii.com.tw/index.aspx";
 	var websiteJP = "http://yahoo-mbga.jp/game/*/play";
-	var websiteCN = "http://86game.com/gameindex.aspx"
-	var queryInfo = { url: website };
+	var websiteCN = "http://86game.com/GameIndex.aspx"
+	var queryInfoTW = { url: websiteTW };
 	var queryInfoJP = { url: websiteJP };
 	var queryInfoCN = { url: websiteCN };
-
 	var config = {};
 	window.config = config;
 
@@ -396,34 +405,37 @@
 		setGameUnconnected();
 
 		// only work under one game
-		chrome.tabs.query(queryInfo, function(arrtabs) {
+		chrome.tabs.query(queryInfoTW, function(arrtabsTW) {
 
 			chrome.tabs.query(queryInfoJP, function(arrtabsJP){
 
 				chrome.tabs.query(queryInfoCN, function(arrtabsCN) {
 
-					if (arrtabs.length + arrtabsJP.length + arrtabsCN.length === 1) {
+					if (arrtabsTW.length + arrtabsJP.length + arrtabsCN.length === 1) {
 						var gameTabID = null;
 
-						if (arrtabs.length === 1) {
-							gameTabID = arrtabs[0].id;
+						if (arrtabsTW.length === 1) {
+							gameTabID = arrtabsTW[0].id;
+							_gaq.push(['_trackEvent', 'Taiwan', 'Playing Server']); // google analytic track
 						}
-						else if (arrtabs.length === 1) {
+						else if (arrtabsJP.length === 1) {
 							gameTabID = arrtabsJP[0].id;
+							_gaq.push(['_trackEvent', 'Japan', 'Playing Server']); // google analytic track
 						}
-						else if (arrtabs.length === 1) {
+						else if (arrtabsCN.length === 1) {
 							gameTabID = arrtabsCN[0].id;
+							_gaq.push(['_trackEvent', 'China', 'Playing Server']); // google analytic track
 						}
 
 						chrome.tabs.reload(gameTabID);
 					}
 					else {
 
-						if (arrtabs.length === 0 && arrtabsJP.length === 0 && arrtabsCN.length === 0) {
+						if (arrtabsTW.length === 0 && arrtabsJP.length === 0 && arrtabsCN.length === 0) {
 							console.log("Detect no game running, the extension is not going to operate untill new game found.");
 						}
 
-						if (arrtabs.length > 1 || arrtabsJP.length > 1 || arrtabsCN.length > 1) {
+						if (arrtabsTW.length > 1 || arrtabsJP.length > 1 || arrtabsCN.length > 1) {
 							console.log("Detect more than one game running, the extension is not going to operate.");
 						}
 
