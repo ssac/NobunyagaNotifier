@@ -110,11 +110,6 @@ $(document).ready(function() {
 		_gaq.push(['_trackEvent', href, 'External Link']);
 	});
 
-	// redirect user to this extension installation page
-	$("#vote").click(function() {
-		chrome.extension.getBackgroundPage().vote();
-	});
-
 	// notice user the game has not found, ask user refresh the game tab
 	if (chrome.extension.getBackgroundPage().ifInGame() === false) {
 		$("#p_not_found_game").show();

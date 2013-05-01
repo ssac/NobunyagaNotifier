@@ -57,17 +57,6 @@ _gaq.push(['_trackPageview']);
 	window.setConfig = setConfig;
 
 
-	/*
-		direct user to the webpage of this extension, for them to vote 5 stars
-		function called from popup.html
-	*/
-	function vote() {
-		chrome.tabs.create({
-			url: "https://chrome.google.com/webstore/detail/oeocjccojaaoejnphdledmkpjmnkflfi"
-		});
-	}
-	window.vote = vote;
-
 	function openlink(url) {
 		chrome.tabs.create({
 			url: url
