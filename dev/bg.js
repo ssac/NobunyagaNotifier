@@ -13,7 +13,7 @@ _gaq.push(['_trackPageview']);
 (function () {
 	var websiteTW = "http://nyaframe.wasabii.com.tw/index.aspx";
 	var websiteJP = "http://yahoo-mbga.jp/game/*/play";
-	var websiteCN = "http://86game.com/GameIndex.aspx"
+	var websiteCN = "http://86game.com/GameIndex.aspx*"
 	var queryInfoTW = { url: websiteTW };
 	var queryInfoJP = { url: websiteJP };
 	var queryInfoCN = { url: websiteCN };

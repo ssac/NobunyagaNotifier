@@ -57,7 +57,7 @@ $(document).ready(function() {
 			flag.build   = ["增建中", "建造中"];
 			flag.prepare = ["增建准备中", "建造准备中"];
 			flag.skill   = "奥义开发将于";
-			flag.soak    = "温泉";
+			flag.soak    = "泡汤将于";
 			flag.fire    = "修练火";
 			flag.land    = "修练地";
 			flag.wind    = "修练风";
