@@ -98,6 +98,9 @@ $(document).ready(function() {
 		new Text("reconnect", "reconnect")
 	];
 
+	// each time user open the pop-up page
+	_gaq.push(['_trackEvent', 'Options page', 'Pop-up']);
+
 	// assign i18n text to popup.html
 	for (var i = 0; i < texts.length; i++) {
 		var i18nText = chrome.i18n.getMessage(texts[i].key);

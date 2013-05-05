@@ -58,11 +58,11 @@ $(document).ready(function() {
 			flag.prepare = ["增建准备中", "建造准备中"];
 			flag.skill   = "奥义开发将于";
 			flag.soak    = "泡汤将于";
-			flag.fire    = "修练火";
-			flag.land    = "修练地";
-			flag.wind    = "修练风";
-			flag.water   = "修练水";
-			flag.sky     = "修练空";
+			flag.fire    = "修炼火";
+			flag.land    = "修炼地";
+			flag.wind    = "修炼风";
+			flag.water   = "修炼水";
+			flag.sky     = "修炼空";
 			return true;
 		}
 

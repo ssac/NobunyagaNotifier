@@ -18,6 +18,8 @@ _gaq.push(['_trackPageview']);
 	var queryInfoJP = { url: websiteJP };
 	var queryInfoCN = { url: websiteCN };
 	var config = {};
+	var onlineTrackInterval = 1000 * 60 * 3;
+	var onlineTrackId = null;
 	window.config = config;
 
 	/*
@@ -160,6 +162,8 @@ _gaq.push(['_trackPageview']);
 			notification.cancel();
 			isNotificationShown = false;
 		}
+
+		onlineTrack(false);
 	}
 
 
@@ -220,12 +224,30 @@ _gaq.push(['_trackPageview']);
 	}
 
 
+	function onlineTrack(startOrEnd) {
+		if (startOrEnd) {
+			onlineTrackId = window.setInterval( function(){
+				_gaq.push(['_trackEvent', 'Online', 'Online Track']);
+				console.log('tracking...');
+			}, onlineTrackInterval);
+		}
+		else {
+			if (onlineTrackId) {
+				window.clearInterval(onlineTrackId);
+				_gaq.push(['_trackEvent', 'Offline', 'Online Track']);
+			}
+		}
+	}
+
+
 	function notifyPlayer(text) {
 		// browser notification, not implemented yet
 		if (config.isBrowserNotify) browserNotification();
 
 		// notification only shown when the notification has not shown yet
 		if (config.isDesktopNotify) desktopNotification(text);
+
+		_gaq.push(['_trackEvent', text, 'Notification']);
 	}
 
 
@@ -416,6 +438,7 @@ _gaq.push(['_trackPageview']);
 							_gaq.push(['_trackEvent', 'China', 'Playing Server']); // google analytic track
 						}
 
+						onlineTrack(true);
 						chrome.tabs.reload(gameTabID);
 					}
 					else {

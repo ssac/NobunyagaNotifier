@@ -1,0 +1,77 @@
+﻿{
+	"reconnect": {
+		"message": "重新连接"
+	},
+
+	"p_multi_game_not_supported": {
+		"message": "多开暂时不支援哦^^"
+	},
+
+	"p_not_found_game": {
+		"message": "找不到游戏，试试刷新游戏^^"
+	},
+
+	"p_local_storage_not_supported": {
+		"message": "使用前请开启 localStorage: 「设定」->「显示进阶设定」->「隐私权说明」->「内容设定」->看有没有开启「允许网站储存本站资料」"
+	},
+
+	"general_setting": {
+		"message": "一般选项"
+	},
+
+	"voice": {
+		"message": "喵声提示"
+	},
+
+	"conditions": {
+		"message": "以下条件成立时通知我"
+	},
+
+	"note_nohome": {
+		"message": "打完贼忘了回到里时"
+	},
+
+	"note_no_build": {
+		"message": "没有建筑物增建中"
+	},
+
+	"note_no_prepare": {
+		"message": "没有建筑物准备中"
+	},
+
+	"note_skill_available": {
+		"message": "奥义所空闲（可多座）"
+	},
+
+	"note_soak_available": {
+		"message": "温泉空闲（可多座）"
+	},
+
+	"note_food_warn": {
+		"message": "粮食超过 90%"
+	},
+
+	"note_quest_battle_available": {
+		"message": "可以打贼丶合战丶猫场所"
+	},
+
+	"note_fire_factory_available": {
+		"message": "修练所【火】空闲（可多座）"
+	},
+
+	"note_land_factory_available": {
+		"message": "修练所【地】空闲（可多座）"
+	},
+
+	"note_wind_factory_available": {
+		"message": "修练所【风】空闲（可多座）"
+	},
+
+	"note_water_factory_available": {
+		"message": "修练所【水】空闲（可多座）"
+	},
+
+	"note_sky_factory_available": {
+		"message": "修练所【空】空闲（可多座）"
+	}
+}
