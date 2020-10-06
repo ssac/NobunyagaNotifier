@@ -17,6 +17,7 @@ $(document).ready(function() {
 		return !(document.URL.match(/nyashindig.86game.com\/shindig\/gadgets/) == null);
 	}
 
+	// 帰還しています。
 	function initFlag() {
 		if (ifTWVersion()) {
 			flag.house   = "貓場所"
@@ -31,6 +32,7 @@ $(document).ready(function() {
 			flag.wind    = "修練風";
 			flag.water   = "修練水";
 			flag.sky     = "修練空";
+			flag.retrieve= "//TODO";
 			return true;
 		}
 
@@ -47,6 +49,7 @@ $(document).ready(function() {
 			flag.wind    = "修練風";
 			flag.water   = "修練水";
 			flag.sky     = "修練空";
+			flag.retrieve= "帰還しています";
 			return true;
 		}
 
@@ -63,6 +66,7 @@ $(document).ready(function() {
 			flag.wind    = "修炼风";
 			flag.water   = "修炼水";
 			flag.sky     = "修炼空";
+			flag.retrieve= "//TODO";
 			return true;
 		}
 
@@ -115,6 +119,11 @@ $(document).ready(function() {
 		return $("#doing > div:contains('" + flag.house + "')").length !== 0;
 	}
 
+	//
+	function isRetrieve() {
+		return $("#doing > div:contains('" + flag.retrieve + "')").length !== 0;
+	}
+
 	// detect if the user's battle team in fight (to another player)
 	function ifInBattle() {
 		return $("#doing > div:contains('" + flag.battle + "')").length !== 0;
@@ -132,7 +141,7 @@ $(document).ready(function() {
 
 	// detect if player in busy
 	function ifQuestNotify() {
-		return !(ifInMove() || ifInBattle() || ifInHouse());
+		return !(ifInMove() || ifInBattle() || ifInHouse() || isRetrieve());
 	}
 
 	function ifContain(arr) {
@@ -181,7 +190,14 @@ $(document).ready(function() {
 			// the id exists means player in busy
 			content.quest = !document.getElementById("notify_count_main");
 		}
+		// if player in 國盜
+		else if (document.getElementById("countdown-contents")) {
+			//#countdown-contents > #player-movement
+			//#countdown-contents > #castle-attack-return
+			content.quest = ifQuestNotify();
+		}
 
+		// Send to client page
 		chrome.extension.sendRequest({ ask: 2, content: content });
 	}
 

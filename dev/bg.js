@@ -259,7 +259,13 @@ _gaq.push(['_trackPageview']);
 
 	// notify user by chrome notification
 	function desktopNotification(text) {
-		notification = webkitNotifications.createNotification("icon/notification.png", 'nyaNotifier', text);
+		// notification = webkitNotifications.createNotification("icon/notification.png", 'nyaNotifier', text);
+		notification = chrome.notifications.create('nyaNotifier', {
+			type: "basic",
+			title: "nyaNotifier",
+			message: text,
+			iconUrl: "icon/notification.png"
+		}, function () {});
 
 		notification.ondisplay = function () {
 			isNotificationShown = true;
